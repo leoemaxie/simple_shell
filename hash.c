@@ -3,7 +3,7 @@
 char *read_shell(void)
 {
 	int nreads = 0;
-	char *str = malloc(50);
+	char *str = NULL;
 	size_t n = 0;
 
 	while (1)
