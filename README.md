@@ -5,10 +5,10 @@ A minimalistic command line intepreter for unix and unix-like systems that execu
 
 ##USAGE
 ```bash
-./hsh <command>
-./hsh echo "hello World"
-./hsh <file>
-./hsh scripts.sh
+./hash <command>
+./hash echo "hello World"
+./hash <file>
+./hash scripts.sh
 ```
 
 ## TESTING
@@ -18,3 +18,4 @@ A minimalistic command line intepreter for unix and unix-like systems that execu
 
 ## Authors
 * [Leo Emaxie](https://github.com/leoemaxie)
+* [Ujah Sunday](https://github.com/ujah2023)
