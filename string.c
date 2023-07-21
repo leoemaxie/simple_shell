@@ -38,3 +38,42 @@ int _strcmp(const char *s1, const char *s2)
 
 	return (1);
 }
+
+/**
+ * _strcpy - Copies a string into another.
+ *
+ * @dest: The string to copy into.
+ * @src: The source string to copy.
+ *
+ * Return: A pointer to dest.
+ */
+char *_strcpy(char *dest, const char *src)
+{
+	int i;
+
+	for (i = 0; src[i] != '\0'; i++)
+		dest[i] = src[i];
+	dest[i] = '\0';
+
+	return (dest);
+}
+
+/**
+ * _strcat- Concatenates two strings.
+ *
+ * @desr: The string to append.
+ * @src: The string to append to.
+ *
+ * Return: A pointer to the resulting string dest.
+ */
+char *_strcat(char *dest, const char *src)
+{
+	int i;
+	int len = _strlen(dest);
+
+	for (i = 0; src[i] != '\0'; ++i)
+		dest[len + i] = src[i];
+	dest[len + i] = '\0';
+
+	return (dest);
+}

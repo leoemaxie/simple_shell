@@ -46,15 +46,19 @@ int get_env_index(const char *name)
  */
 char *_getenv(const char *name)
 {
-	int i = 0;
+	int i = 0, j;
 	int index = get_env_index(name);
+	char env_var[4096];
+	char *env_ptr;
 
 	if (index > -1)
 	{
 		while (environ[index][i] != '=')
 			i++;
-		environ[index] += (i + 1);
-		return (environ[index]);
+		for (j = 0, i += 1; environ[index][i]; i++, j++)
+			env_var[j] = environ[index][i];
+		env_ptr = env_var;
+		return (env_ptr);
 	}
 	return (NULL);
 }
@@ -84,15 +88,14 @@ void printenv(void)
  */
 int _unsetenv(const char *name)
 {
-	int index;
+	int index = get_env_index(name);
 
 	if (index == -2)
 		return (-1);
-
 	if (index > -1)
-	{
-		environ[index] = NULL;
-		return (0);
-	}
+		for (; environ[index]; index++)
+			environ[index] = environ[index + 1];
+
+	return (0);
 }
 

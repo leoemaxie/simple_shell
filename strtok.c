@@ -2,14 +2,14 @@
 #include <stdlib.h>
 #include "hash.h"
 
-/*int is_delim(char c, (int)(*delim_check)(char, const char *))
+int is_delim(char c, const char *delim)
 {
 	int j;
 
 	for (j = 0; delim[j]; j++)
 		if (c == delim[j])
 			return (1);
-	return (0);/
+	return (0);
 }
 
 char *_strtok(char *s, const char *delim)
@@ -44,17 +44,16 @@ char *_strtok(char *s, const char *delim)
 
 	return (NULL);
 }
-*/
+
 int main(void)
 {
 	char o[100];
 	char s[] = "Hello World;;;;;This is great "; //"great"
 	const char *c = " ;";
-	//char *token = _strtok(s, c);
+	char *token = _strtok(s, c);
 	char y[] = "IN 1960, A great orator was born   One who changes the world!";
 
-		printf("%s\n", environ[0]);
-	/*while (token != NULL)
+	while (token != NULL)
 	{
 		token = _strtok(NULL, c);
 		printf("%s\n", token);
@@ -65,7 +64,7 @@ int main(void)
 	{
 		token = _strtok(NULL, c);
 		printf("%s\n", token);
-	}*/
+	}
 	return (0);
 
 }

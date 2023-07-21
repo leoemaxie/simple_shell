@@ -23,7 +23,7 @@ void perform_builtin_cmd(int index, char **env)
 		case 0:
 			break;
 		case 1:
-			printenv(env);
+			printenv();
 			break;
 		case 2:
 			exit(1);
