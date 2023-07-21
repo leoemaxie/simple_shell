@@ -1,7 +1,7 @@
 # Simple Shell
 
 ## Overview
-A minimalistic command line intepreter for unix and unix-like systems that executes commands read from the standard input or from a file.
+A minimalistic command line intepreter for UNIX and UNIX-like systems that executes commands read from the standard input or from a file.
 
 ## USAGE
 ```bash
