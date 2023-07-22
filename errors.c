@@ -81,7 +81,7 @@ void printerr(err_t err)
 		msg[i++] = ':';
 		msg[i] = ' ';
 
-		if (linestr != NULL)
+		if (num_str != NULL)
 			for (j = 0; num_str[j]; j++)
 				msg[++i] = num_str[j];
 

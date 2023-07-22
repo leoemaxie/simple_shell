@@ -2,9 +2,10 @@
 
 int main(int ac, char **av, char **env)
 {
-	_unsetenv("_");
-	printf("%p %p", environ, env);
-	printf("%s", getenv("HOME"));
+	_setenv("JOME", "NULL", 1);
+	//puts(env[31]);
 	printenv();
+	printf("%lu", sizeof(env));
+	//printenv();
 	return (0);
 }

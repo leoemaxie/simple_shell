@@ -67,6 +67,7 @@ char *_getenv(const char *mame);
 char *_get_env_index(const char *mame);
 int _setenv(const char *name, const char *value, int overwrite);
 int _unsetenv(const char *mame);
+int addenv(const char *name, const char *value);
 void printenv(void);
 
 /** write_output.c **/

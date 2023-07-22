@@ -61,7 +61,7 @@ char *_strcpy(char *dest, const char *src)
 /**
  * _strcat- Concatenates two strings.
  *
- * @desr: The string to append.
+ * @dest: The string to append.
  * @src: The string to append to.
  *
  * Return: A pointer to the resulting string dest.
