@@ -67,7 +67,6 @@ void shell_exec(char **env)
 			continue;
 		}
 	}
-
 }
 
 int file_exec(char *filename, char **env)

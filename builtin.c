@@ -3,7 +3,7 @@
 int is_builtin(char *s)
 {
 	int i;
-	char *builtins[] = {"cd", "env", "exit"};
+	char *builtins[] = {"alias", "cd", "env", "exit", "setenv", "unsetenv"};
 
 	for (i = 0; i < 3; i++)
 		if (_strcmp(builtins[i], s))
@@ -16,7 +16,7 @@ void close(int status)
 	exit(status);
 }
 
-void perform_builtin_cmd(int index, char **env)
+void perform_builtin_cmd(int index, int status)
 {
 	switch (index)
 	{
@@ -26,7 +26,7 @@ void perform_builtin_cmd(int index, char **env)
 			printenv();
 			break;
 		case 2:
-			exit(1);
+			close(status);
 			break;
 	}
 }

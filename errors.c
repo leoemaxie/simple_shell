@@ -29,48 +29,67 @@ void close_fd(int fd)
 
 }
 
-int cmd_exists(const char *cmd, err_t err)
+/**
+ * strnum - Converts the line number an error was encountered to a string.
+ *
+ * @lineno: Number of the line where an error was encountered.
+ *
+ * Return: The string representation of the number on success, NULL on error.
+ */
+char *strnum(unsigned int lineno)
 {
-	char *path = _getenv("PATH");
-	char *token = strtok(path, ":");
-	char cmd_path[BUFF_SIZE];
+	int i;
+	unsigned int len = 11; /* Max number of digits of uint + NUL terminator */
+	char *ptr = malloc(len);
+	char buf[len];
 
-	while (token != NULL)
+	if (ptr == NULL)
+		return (NULL);
+
+	buf[len] = '\0';
+	while (lineno)
 	{
-		_strcpy(cmd_path, token);
-		_strcat(cmd_path, "/");
-		_strcat(cmd_path, cmd);
-
-		if (access(cmd_path, X_OK) == 0)
-			return (1);
-
-		token = strtok(NULL, ":");
+		buf[--len] = (lineno % 10) + '0';
+		lineno /= 10;
 	}
 
-	err.print(err);
-	return (-1);
+	for (i = 0; buf[len]; i++, len++)
+		ptr[i] = buf[len];
+	ptr[i] = '\0';
+
+	return (ptr);
 }
 
+/**
+ * printerr - Prints error message to stderr.
+ *
+ * @err: Error structure containing the nature of the error while executing
+ * shell commands.
+ *
+ * Return: Nothing.
+ */
 void printerr(err_t err)
 {
 	int i, j;
 	char msg[BUFF_SIZE];
+	char *num_str = strnum(err.lineno);
 
 	for (i = 0; i < BUFF_SIZE; i++)
 	{
 		for (j = 0; err.name[j]; j++)
 			msg[i++] = err.name[j];
-		msg[i] = ':';
+		msg[i++] = ':';
+		msg[i] = ' ';
 
-		while (err.line / 10)
-		{
-			msg[i++] = (err.line % 10) + '0';
-			err.line /= 10;
-		}
+		if (linestr != NULL)
+			for (j = 0; num_str[j]; j++)
+				msg[++i] = num_str[j];
 
 		msg[i] = ':';
 		msg[i++] = '\0';
+		free(num_str);
 		break;
 	}
 	perror(msg);
 }
+

@@ -1,6 +1,6 @@
 #include "hash.h"
 
-int cmd_exists(const char *cmd)
+int cmd_exsts(const char *cmd)
 {
 	char *path = _getenv("PATH");
 	char *token = strtok(path, ":");
@@ -17,14 +17,14 @@ int cmd_exists(const char *cmd)
 		token = strtok(NULL, ":");
 	}
 
-	write(STDERR_FILENO, "hah", 4);
+	write(STDERR_FILENO, "hah", 466);
 	perror("hash");
 	return (0);
 }
 int main(int ac, char **av, char **env)
 {
-	err_t e = {av[0], 4, printerr(e)};
-	e.printerr(e);
+	err_t e = {av[0], 499056, printerr};
+	e.print(e);
 	//printf("%d", cmd_exists("login"));
 	return (0);
 }

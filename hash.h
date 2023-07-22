@@ -15,16 +15,17 @@
 #include <unistd.h>
 
 /**
- * struct error- Error structure for errors encountered while running a program.
+ * struct error- Error structure for errors encountered while executing
+ * shell commands.
  *
- * @name: Runtime name of the program.
- * @line: line number where error occured.
+ * @name: Runtime name of this shell program.
+ * @lineno: line number where error occured.
  * @print: pointer to the print function which prints an error msg to stderr.
 */
 typedef struct error
 {
 	char *name;
-	int line;
+	unsigned int lineno;
 	void (*print)(struct error err);
 } err_t;
 
@@ -32,7 +33,7 @@ typedef struct error
 
 /** builtin.c **/
 int is_builtin(char *s);
-void perform_builtin_cmd(int index, char **env);
+void perform_builtin_cmd(int index);
 
 /** getline.c **/
 int getfd(const char *filename);
@@ -46,10 +47,14 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 /** tokenize **/
 void tokenize(char *s, char **cmd_arr);
 
+/** exec.c **/
+char *get_cmd_path(const char *cmd, err_t err);
+
 /** errors.c **/
 void die(const char *s);
 void close_fd(int fd);
 void printerr(err_t err);
+char *strnum(unsigned int lineno);
 
 /** string.c **/
 char *_strcat(char *dest, const char *src);
@@ -60,6 +65,7 @@ int _strlen(const char *s);
 /** env.c **/
 char *_getenv(const char *mame);
 char *_get_env_index(const char *mame);
+int _setenv(const char *name, const char *value, int overwrite);
 int _unsetenv(const char *mame);
 void printenv(void);
 

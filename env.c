@@ -1,11 +1,12 @@
 #include "hash.h"
 
 /**
- * get_env_index - Gets the index of an environmental variable.
+ * get_env_index - Gets the index of an environment variable.
  *
- * @name: Name of the environmetal variable to get.
+ * @name: pointer to a character string that contains the name of the
+ * environment variable to get.
  *
- * Return: The index of the environmental variables if found or -1 if it can not be found.
+ * Return: The index of the environment variable if found or -1 if it can not be found.
  */
 int get_env_index(const char *name)
 {
@@ -40,7 +41,7 @@ int get_env_index(const char *name)
 /**
  * _getenv - Gets an environmental variable.
  *
- * @name: Name 0f the environmetal variable to get.
+ * @name: Pointer to a character string that contains the name of the environment variable to get.
  *
  * Return: The environmental variables if found or NULL if it can not be found.
  */
@@ -64,7 +65,7 @@ char *_getenv(const char *name)
 }
 
 /**
- * printenv - Prints the environmental variables.
+ * printenv - Prints the environment variables.
  *
  * Return: Nothing.
  */
@@ -80,9 +81,10 @@ void printenv(void)
 }
 
 /**
- * _unsetenv - Unsets an environmental variable.
+ * _unsetenv - Removes an environment variable.
  *
- * @name: Name 0f the environmetal variable to unset.
+ * @name: Pointer to a character string that contains the name of the
+ * environment variable to be deleted.
  *
  * Return: 0 on success -1 on error.
  */
@@ -99,3 +101,17 @@ int _unsetenv(const char *name)
 	return (0);
 }
 
+/**
+ * _setenv - Adds, changes, and deletes environment variables.
+ *
+ * @name: pointer to a character string that contains the name of the
+ * environment variable to be added, changed, or deleted.
+ * @value: Pointer to a character string that contains the value of the
+ * environment variable named in {name},
+ * @overwrite: An integer that determines the additional modification of {name}.
+ *
+ * Return: 0 on success -1 on error.
+ */
+int _setenv(const char *name, const char *value, int overwrite)
+{
+}
