@@ -51,7 +51,6 @@ char *_strtok(char *s, const char *delim);
 int is_delim(char c, const char *delim);
 void free_tokens(char **token_arr);
 int is_delim(char c, const char *delim);
-int skip_delim(char *s, const char *delim);
 char **tokenize(char *line);
 
 /** exec.c **/
