@@ -61,14 +61,14 @@ char *strnum(unsigned int lineno)
 }
 
 /**
- * printerr - Prints error message to stderr.
+ * seterr - Sets an error message.
  *
  * @err: Error structure containing the nature of the error while executing
  * shell commands.
  *
  * Return: Nothing.
  */
-void printerr(err_t err)
+void seterr(err_t err)
 {
 	int i, j;
 	char msg[BUFF_SIZE];
@@ -90,6 +90,20 @@ void printerr(err_t err)
 		free(num_str);
 		break;
 	}
+	err.msg = msg;
+}
+
+/**
+ * printerr - Prints error message to stderr.
+ *
+ * @err: Error structure containing the nature of the error while executing
+ * shell commands.
+ *
+ * Return: Nothing.
+ */
+void printerr(err_t err)
+{
+	seterr(err);
 	perror(msg);
 }
 

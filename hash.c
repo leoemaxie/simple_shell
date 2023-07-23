@@ -28,15 +28,15 @@ int _exec(int fd, char **env)
 	int status;
 	pid_t pid;
 	char *cmd_arr;
-	char *token;
+	char **tokens;
 
 	if (_getline(&cmd_arr, &n, fd) == -1)
 		return (-1);
 
-	token = strtok(cmd_arr, " ");
-	while (token != NULL)
-	{
-		token = strtok(NULL, " ");
+	tokens = tokenize(cmd_arr);
+	if (tokens == NULL)
+		return (-1);
+	free_tokens(tokens);
 		
 		/*if (fork() == -1)
 			_exit(1);

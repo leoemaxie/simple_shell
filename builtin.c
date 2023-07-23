@@ -11,8 +11,11 @@ int is_builtin(char *s)
 	return (-1);
 }
 
-void close(int status)
+int close(char **arr)
 {
+	int tokens = arrlen(dirarr);
+
+	if (tokens > 1) 
 	exit(status);
 }
 
@@ -31,13 +34,66 @@ void perform_builtin_cmd(int index, int status)
 	}
 }
 
-/*
-cd(const char *dir)
+int arrlen(char **arr)
 {
-	static char *prev_dir;
-	if (dir == NULL)
-		dir = _getenv("HOME");
-	if (chdir(dir) == -1)
+	int len = 0;
 
-	uuperror
-	*/
+	while (*arr)
+	{
+		len++;
+		arr++;
+	}
+
+	return (len);
+}
+
+void print_builtin_err(char *msg, err_t msg)
+{
+	seterr(err);
+	write(STDERR_FILENO, err.msg, _strlen(err.msg));
+	write(STDERR_FILENO, msg, _strlen(msg));
+}
+
+int cd(const char **dirarr, err_t err)
+{
+	int set_pwd, set_oldpwd;
+	int tokens = arrlen(dirarr);
+	char *dir;
+	char *oldpwd = _getenv("PWD");
+
+	if (tokens > 1)
+	{
+		print_builtin_err(":cd: Too many arguments\n");
+		return (-1);
+	}
+
+	if (oldpwd == NULL)
+	{
+		print_builtin_err(":cd: Old PWD not set\n");
+		return (-1);
+	}
+
+	if (token == 0)
+		dir = _getenv("HOME");
+	else
+		dir = _strcmp("-", dirarr[0]) ? oldpwd : dirarr[0];
+
+	if (dir == NULL)
+		return (-1);
+
+	if (chdir(dir) == -1)
+	{
+		err.print(err);
+		return (-1);
+	}
+
+	set_oldpwd = _setenv("OLDPWD", oldpwd, 0);
+	set_pwd = _setenv("PWD", dir, 0);
+	if (set_oldpwd == -1 || set_pwd == -1)
+	{
+		print_builtin_err(":cd: Invalid argument\n");
+		return (-1);
+	}
+
+	return (0);
+}
