@@ -67,24 +67,27 @@ int _exec(int fd, err_t err)
 	free(cmd_arr);
 	free_tokens(tokens);
 
-	/*if (status == -1)
+	if (status == -1)
 	{
 		err.print(err);
 		return (-1);
-	}*/
+	}
 		
 	return (0);
 }
 
 int sysexec(char *cmd, char **tokens, err_t err)
 {
-	//int status;
+	int status;
 	pid_t pid;
 	char *path = get_cmd_path(cmd, err);
-	printf("%s", path);
+	char *cmd_path[] = {path, NULL};
 
-	/*if (path == NULL)
+	if (path == NULL)
+	{
+		free(path);
 		return (-1);
+	}
 
 	pid = fork();
 
@@ -95,11 +98,11 @@ int sysexec(char *cmd, char **tokens, err_t err)
 	}
 	else if (pid == 0)
 	{
-		if (execve(cmd, tokens, environ) == -1)
+		if (execve(path, tokens, environ) == -1)
 		{
 			err.print(err);
 			return (-1);
 		}
-	}*/
+	}
 	return (0);
 }

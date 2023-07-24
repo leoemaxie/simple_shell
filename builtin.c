@@ -12,7 +12,7 @@ int exec_builtin(char *cmd, char **tokens, err_t err)
 		//{unsetenv_c, "unsetenv"}
 	};
 
-	for (i = 0; i < 5; i++)
+	for (i = 0; i < 3; i++)
 	{
 		if (_strcmp(cmd, builtins[i].cmd))
 		{
