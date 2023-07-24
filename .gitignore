@@ -1,4 +1,4 @@
 a.out
 hash
-libsha.a
+libhash.a
 ^[A-Za-z]{1}$
