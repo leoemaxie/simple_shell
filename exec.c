@@ -34,7 +34,7 @@ char *get_cmd_path(char *cmd, err_t err)
 		token = _strtok(NULL, ":");
 	}
 
-	err.print(err);
+	//err.print(err);
 	return (NULL);
 }
 
@@ -56,22 +56,17 @@ int _exec(int fd, err_t err)
 	if (tokens == NULL)
 		return (-1);
 
-	cmd = tokens[0];
-	if (cmd != NULL)
-		tokens++;
-
-	if (!exec_builtin(cmd, tokens, err))
+	if (!exec_builtin(tokens[0], tokens, err))
 		status = sysexec(cmd, tokens, err);
 
-	free(cmd);
 	free(cmd_arr);
 	free_tokens(tokens);
 
-	if (status == -1)
+	/*if (status == -1)
 	{
 		err.print(err);
 		return (-1);
-	}
+	}*/
 		
 	return (0);
 }
@@ -81,7 +76,6 @@ int sysexec(char *cmd, char **tokens, err_t err)
 	int status;
 	pid_t pid;
 	char *path = get_cmd_path(cmd, err);
-	char *cmd_path[] = {path, NULL};
 
 	if (path == NULL)
 	{
@@ -94,7 +88,7 @@ int sysexec(char *cmd, char **tokens, err_t err)
 	if (pid < 0)
 	{
 		err.print(err);
-		return (0);
+		 return (-1);
 	}
 	else if (pid == 0)
 	{
@@ -104,5 +98,5 @@ int sysexec(char *cmd, char **tokens, err_t err)
 			return (-1);
 		}
 	}
-	return (0);
+	return (1);
 }

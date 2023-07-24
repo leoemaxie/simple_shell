@@ -40,7 +40,7 @@ char *_getenv(const char *name)
  */
 int printenv(char **arr, err_t err)
 {
-	if (arrlen(arr) > 0)
+	if (arrlen(arr) > 1)
 	{
 		print_builtin_err(":env: Too many arguments\n", err);
 		return (-1);

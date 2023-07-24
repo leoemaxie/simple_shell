@@ -27,8 +27,8 @@ int exit_shell(char **arr, err_t err)
 {
 	(void)err;
 
-	if (arrlen(arr) > 1)
-		exit(_atoi(arr[0]));
+	if (arrlen(arr) > 2)
+		exit(_atoi(arr[1]));
 	exit(0);
 }
 
@@ -52,7 +52,7 @@ int cd(char **dirarr, err_t err)
 	char *dir;
 	char *oldpwd = _getenv("PWD");
 
-	if (tokens > 1)
+	if (tokens > 2)
 	{
 		print_builtin_err(":cd: Too many arguments\n", err);
 		return (-1);
@@ -64,10 +64,10 @@ int cd(char **dirarr, err_t err)
 		return (-1);
 	}
 
-	if (tokens == 0)
+	if (tokens == 1)
 		dir = _getenv("HOME");
 	else
-		dir = _strcmp("-", dirarr[0]) ? oldpwd : dirarr[0];
+		dir = _strcmp("-", dirarr[1]) ? oldpwd : dirarr[1];
 
 	if (dir == NULL)
 		return (-1);
