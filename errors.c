@@ -54,11 +54,14 @@ char *strnum(unsigned int lineno)
  *
  * Return: Nothing.
  */
-void seterr(err_t err)
+void seterr(err_t *err)
 {
 	int i, j;
 	char msg[BUFF_SIZE];
 	char *num_str = strnum(err.lineno);
+
+	if (err->msg)
+		free(err->msg);
 
 	for (i = 0; i < BUFF_SIZE; i++)
 	{
@@ -75,7 +78,7 @@ void seterr(err_t err)
 
 	msg[i] = ':';
 	msg[i++] = '\0';
-	err.msg = msg;
+	err->msg = msg;
 	free(num_str);
 }
 
@@ -89,7 +92,7 @@ void seterr(err_t err)
  */
 void printerr(err_t err)
 {
-	seterr(err);
+	//seterr(err);
 	perror(err.msg);
 }
 
@@ -105,7 +108,7 @@ void printerr(err_t err)
  */
 void print_builtin_err(char *msg, err_t err)
 {
-	seterr(err);
+	//seterr(err);
 	write(STDERR_FILENO, err.msg, _strlen(err.msg));
 	write(STDERR_FILENO, msg, _strlen(msg));
 }

@@ -64,7 +64,7 @@ int resize(char **lineptr, ssize_t old_len, ssize_t new_len);
 int _atoi(const char *s);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 int arrlen(char **arr);
-void cleanup(err_t e);
+void cleanup(err_t *e);
 
 /** tokenize.c **/
 char *_strtok(char *s, const char *delim);
@@ -82,7 +82,7 @@ int sysexec(char *cmd, char **tokens, err_t err);
 void close_fd(int fd);
 void printerr(err_t err);
 void print_builtin_err(char *msg, err_t err);
-void seterr(err_t err);
+char *seterr(err_t err);
 char *strnum(unsigned int lineno);
 
 /** string.c **/

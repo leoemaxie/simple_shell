@@ -27,7 +27,7 @@ int exit_shell(char **arr, err_t err)
 {
 	(void)err;
 
-	if (arrlen(arr) > 2)
+	if (arrlen(arr) > 1)
 		exit(_atoi(arr[1]));
 	exit(0);
 }

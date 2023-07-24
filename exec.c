@@ -76,7 +76,6 @@ int sysexec(char *cmd, char **tokens, err_t err)
 	int status;
 	pid_t pid;
 	char *path = get_cmd_path(cmd, err);
-	puts(path);
 
 	if (path == NULL)
 	{
