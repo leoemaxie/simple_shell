@@ -1,20 +1,6 @@
 #include "hash.h"
 
 /**
- * die - Terminates the current shell execution if an error occurs and prints
- * the error to STDERR.
- *
- * @s: The error to print.
- *
- * Return: Nothing.
- */
-void die(const char *s)
-{
-	perror(s);
-	exit(EXIT_FAILURE);
-}
-
-/**
  * close_fd - Closes a file descriptor and prints an error message to STDERR
  * when an error is encountered.
  *
@@ -84,13 +70,13 @@ void seterr(err_t err)
 		if (num_str != NULL)
 			for (j = 0; num_str[j]; j++)
 				msg[++i] = num_str[j];
-
-		msg[i] = ':';
-		msg[i++] = '\0';
-		free(num_str);
 		break;
 	}
+
+	msg[i] = ':';
+	msg[i++] = '\0';
 	err.msg = msg;
+	free(num_str);
 }
 
 /**
@@ -107,3 +93,19 @@ void printerr(err_t err)
 	perror(msg);
 }
 
+/**
+ * print_builtin_err - Prints a short message about the error occured while
+ * executing builtin commands to stderr.
+ *
+ * @err: Error structure containing the nature of the error while executing
+ * shell commands.
+ * @msg: Error message to print.
+ *
+ * Return: Nothing.
+ */
+void print_builtin_err(char *msg, err_t msg)
+{
+	seterr(err);
+	write(STDERR_FILENO, err.msg, _strlen(err.msg));
+	write(STDERR_FILENO, msg, _strlen(msg));
+}

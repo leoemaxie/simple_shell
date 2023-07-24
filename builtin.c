@@ -1,37 +1,34 @@
 #include "hash.h"
 
-int is_builtin(char *s)
+int exec_builtin(char *cmd, char **tokens, err_t err)
 {
 	int i;
-	char *builtins[] = {"alias", "cd", "env", "exit", "setenv", "unsetenv"};
+	btn_t builtins[] = {
+		//{alias, "alias"},
+		{cd, "cd"},
+		//{printenv, "env"},
+		{close, "exit"},
+		//{set, "setenv"},
+		//{unset, "unsetenv"}
+	};
 
-	for (i = 0; i < 3; i++)
-		if (_strcmp(builtins[i], s))
-			return (i);
-	return (-1);
+	for (i = 0; i < 6; i++)
+	{
+		if (_strcmp(cmd, builtins[i].cmd))
+		{
+			builtins[i].exec(tokens, err);
+			return (1);
+		}
+	}
+	return (0);
 }
 
 int close(char **arr)
 {
-	int tokens = arrlen(dirarr);
+	int tokens = arrlen(arr);
 
-	if (tokens > 1) 
-	exit(status);
-}
-
-void perform_builtin_cmd(int index, int status)
-{
-	switch (index)
-	{
-		case 0:
-			break;
-		case 1:
-			printenv();
-			break;
-		case 2:
-			close(status);
-			break;
-	}
+	if (tokens > 1)
+		exit(_atoi(arr[0]);
 }
 
 int arrlen(char **arr)
@@ -45,13 +42,6 @@ int arrlen(char **arr)
 	}
 
 	return (len);
-}
-
-void print_builtin_err(char *msg, err_t msg)
-{
-	seterr(err);
-	write(STDERR_FILENO, err.msg, _strlen(err.msg));
-	write(STDERR_FILENO, msg, _strlen(msg));
 }
 
 int cd(const char **dirarr, err_t err)

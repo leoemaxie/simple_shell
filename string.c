@@ -81,7 +81,7 @@ char *_strcat(char *dest, const char *src)
 /**
  * _strdup - Dynamically copies a string.
  *
- * @str: The string to copy into.
+ * @str: The string to copy.
  *
  * Return: A pointer to a newly allocated space in memory, which contains a
  * copy of string str.

@@ -21,70 +21,33 @@ int read_input(char **buf, int fd)
 }
 
 
-int _exec(int fd, char **env)
-{
-	int b;
-	size_t n = 0;
-	int status;
-	pid_t pid;
-	char *cmd_arr;
-	char **tokens;
-
-	if (_getline(&cmd_arr, &n, fd) == -1)
-		return (-1);
-
-	tokens = tokenize(cmd_arr);
-	if (tokens == NULL)
-		return (-1);
-	free_tokens(tokens);
-		
-		/*if (fork() == -1)
-			_exit(1);
-		else 
-		{
-			char *params[2] = {token, NULL};
-			char *r[2] = {token, NULL};
-			if (execve(token, params, r) == -1)
-				return (-1);
-			wait(&status);
-		}*/
-	}
-	free(cmd_arr);
-	//printenv(env);
-
-	return (0);
-}
-
-
-void shell_exec(char **env)
+void shell_exec(err_t)
 {
 	while (1)
 	{
 		write(STDOUT_FILENO, "($) ", 4);
 		if (_exec(STDOUT_FILENO, env) == -1)
 		{
-			perror(PROGRAM_NAME);
 			continue;
 		}
 	}
 }
 
-int file_exec(char *filename, char **env)
+int file_exec(char *filename, err_t err)
 {
 	int fd = getfd(filename);
-	int line_no = 0;
 
 	if (fd == -1)
-		die(PROGRAM_NAME);
+		err.printerr(err);
 
 	while (1)
 	{
 		if (_exec(fd, env) == -1)
 		{
-			dprintf(STDERR_FILENO, "%s: %d: %s", PROGRAM_NAME, line_no, strerror(errno));
+			err.printerr(err);
 			continue;
 		}
-		line_no++;
+		err.lineno++;
 	}
 
 	close_fd(fd);
@@ -100,11 +63,14 @@ int file_exec(char *filename, char **env)
  */
 int main(int ac, char **av, char **env)
 {
+	char *msg = av[0];
+	err_t err = {av[0], 0, printerr};
+
 	if (ac > 1)
-		file_exec(av[1], env);
+		file_exec(av[1], err);
 
 	else
-		shell_exec(env);
+		shell_exec(err);
 
 	return (0);
 }

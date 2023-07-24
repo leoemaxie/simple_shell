@@ -31,6 +31,18 @@ typedef struct error
 	void (*print)(struct error err);
 } err_t;
 
+/**
+ * struct builtin - Builtin structure for builtin shell commands.
+ *
+ * @exec: Pointer to an exec function of builtin commands.
+ * @cmd: Name of the builtin command.
+*/
+typedef struct builtin
+{
+	int (*exec)(char **tokens, err_t err);
+	char *cmd;
+} btn_t;
+
 /***** Declarations *****/
 
 /** builtin.c **/
@@ -44,6 +56,7 @@ int fill_buf(char **lineptr, char *buf, ssize_t old_len, ssize_t new_len);
 int line_end(int c);
 int resize(char **lineptr, ssize_t old_len, ssize_t new_len);
 
+int _exec(int fd, err_t err);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 
 /** tokenize.c **/
@@ -54,12 +67,14 @@ int is_delim(char c, const char *delim);
 char **tokenize(char *line);
 
 /** exec.c **/
+int _exec(int fd, err_t err);
 char *get_cmd_path(const char *cmd, err_t err);
+int sysexec(char *cmd, char **tokens, err_t err);
 
 /** errors.c **/
-void die(const char *s);
 void close_fd(int fd);
 void printerr(err_t err);
+void print_builtin_err(char *msg, err_t msg);
 void seterr(err_t err);
 char *strnum(unsigned int lineno);
 
