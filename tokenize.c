@@ -112,5 +112,5 @@ void free_tokens(char **token_arr)
 
 	for (i = 0; token_arr[i]; i++)
 		free(token_arr[i]);
-	free(token_arr);
+	//free(token_arr);
 }

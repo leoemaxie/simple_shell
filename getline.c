@@ -14,7 +14,7 @@ int line_end(int c)
 		case '\n':
 			return (1);
 		case EOF:
-			return (1);
+			return (2);
 		case CTRL_KEY('c'):
 			exit(1);
 		default:
@@ -70,9 +70,12 @@ int fill_buf(char **lineptr, char *buf, ssize_t old_len, ssize_t new_len)
 
 		if (end_of_line)
 		{
+			if (j < 1)
+				return (-1);
 			(*lineptr)[i] = '\0';
 			return (1);
 		}
+
 		(*lineptr)[i] = buf[j++];
 	}
 	return (0);

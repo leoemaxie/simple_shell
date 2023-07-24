@@ -46,8 +46,10 @@ typedef struct builtin
 /***** Declarations *****/
 
 /** builtin.c **/
-int is_builtin(char *s);
-void perform_builtin_cmd(int index);
+int arrlen(char **arr);
+int cd(char **dirarr, err_t err);
+int exec_builtin(char *cmd, char **tokens, err_t err);
+int exit_shell(char **arr, err_t err);
 
 /** getline.c **/
 int getfd(const char *filename);
@@ -56,8 +58,11 @@ int fill_buf(char **lineptr, char *buf, ssize_t old_len, ssize_t new_len);
 int line_end(int c);
 int resize(char **lineptr, ssize_t old_len, ssize_t new_len);
 
-int _exec(int fd, err_t err);
+/** miscellenous */
+int _atoi(const char *s);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
+int arrlen(char **arr);
+void cleanup(err_t e);
 
 /** tokenize.c **/
 char *_strtok(char *s, const char *delim);
@@ -68,13 +73,13 @@ char **tokenize(char *line);
 
 /** exec.c **/
 int _exec(int fd, err_t err);
-char *get_cmd_path(const char *cmd, err_t err);
+char *get_cmd_path(char *cmd, err_t err);
 int sysexec(char *cmd, char **tokens, err_t err);
 
 /** errors.c **/
 void close_fd(int fd);
 void printerr(err_t err);
-void print_builtin_err(char *msg, err_t msg);
+void print_builtin_err(char *msg, err_t err);
 void seterr(err_t err);
 char *strnum(unsigned int lineno);
 
@@ -89,7 +94,7 @@ int _strlen(const char *s);
 char *_getenv(const char *mame);
 int _setenv(const char *name, const char *value, int overwrite);
 int _unsetenv(const char *mame);
-void printenv(void);
+int printenv(char **dir, err_t err);
 
 /** env_helper.c **/
 int addenv(const char *name, const char *value);

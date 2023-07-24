@@ -6,13 +6,13 @@ int exec_builtin(char *cmd, char **tokens, err_t err)
 	btn_t builtins[] = {
 		//{alias, "alias"},
 		{cd, "cd"},
-		//{printenv, "env"},
-		{close, "exit"},
-		//{set, "setenv"},
-		//{unset, "unsetenv"}
+		{printenv, "env"},
+		{exit_shell, "exit"},
+		//{setenv_c, "setenv"},
+		//{unsetenv_c, "unsetenv"}
 	};
 
-	for (i = 0; i < 6; i++)
+	for (i = 0; i < 5; i++)
 	{
 		if (_strcmp(cmd, builtins[i].cmd))
 		{
@@ -23,12 +23,13 @@ int exec_builtin(char *cmd, char **tokens, err_t err)
 	return (0);
 }
 
-int close(char **arr)
+int exit_shell(char **arr, err_t err)
 {
-	int tokens = arrlen(arr);
+	(void)err;
 
-	if (tokens > 1)
-		exit(_atoi(arr[0]);
+	if (arrlen(arr) > 1)
+		exit(_atoi(arr[0]));
+	exit(0);
 }
 
 int arrlen(char **arr)
@@ -44,7 +45,7 @@ int arrlen(char **arr)
 	return (len);
 }
 
-int cd(const char **dirarr, err_t err)
+int cd(char **dirarr, err_t err)
 {
 	int set_pwd, set_oldpwd;
 	int tokens = arrlen(dirarr);
@@ -53,17 +54,17 @@ int cd(const char **dirarr, err_t err)
 
 	if (tokens > 1)
 	{
-		print_builtin_err(":cd: Too many arguments\n");
+		print_builtin_err(":cd: Too many arguments\n", err);
 		return (-1);
 	}
 
 	if (oldpwd == NULL)
 	{
-		print_builtin_err(":cd: Old PWD not set\n");
+		print_builtin_err(":cd: Old PWD not set\n", err);
 		return (-1);
 	}
 
-	if (token == 0)
+	if (tokens == 0)
 		dir = _getenv("HOME");
 	else
 		dir = _strcmp("-", dirarr[0]) ? oldpwd : dirarr[0];
@@ -81,9 +82,24 @@ int cd(const char **dirarr, err_t err)
 	set_pwd = _setenv("PWD", dir, 0);
 	if (set_oldpwd == -1 || set_pwd == -1)
 	{
-		print_builtin_err(":cd: Invalid argument\n");
+		print_builtin_err(":cd: Invalid argument\n", err);
 		return (-1);
 	}
 
 	return (0);
 }
+/*
+int unset_c(char **arr, err_t err)
+{
+	int tokens = arrlen(dirarr);
+
+	if (tokens > 1)
+	{
+		print_builtin_err(":unset: Too many arguments\n", err);
+		return (-1);
+	}
+
+	if (tokens == 1)
+	{
+		if unset
+}*/

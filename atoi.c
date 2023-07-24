@@ -1,4 +1,4 @@
-#include "main.h"
+#include "hash.h"
 
 /**
  *
@@ -8,7 +8,7 @@
  *
  * Return: A integer
  */
-int _atoi(char *s)
+int _atoi(const char *s)
 {
 	int c = 0;
 	unsigned int ni = 0;

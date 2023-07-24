@@ -11,7 +11,7 @@
 void close_fd(int fd)
 {
 	if (close(fd) == -1)
-		die("hash");
+		;
 
 }
 
@@ -27,7 +27,7 @@ char *strnum(unsigned int lineno)
 	int i;
 	unsigned int len = 11; /* Max number of digits of uint + NUL terminator */
 	char *ptr = malloc(len);
-	char buf[len];
+	char buf[11];
 
 	if (ptr == NULL)
 		return (NULL);
@@ -90,7 +90,7 @@ void seterr(err_t err)
 void printerr(err_t err)
 {
 	seterr(err);
-	perror(msg);
+	perror(err.msg);
 }
 
 /**
@@ -103,7 +103,7 @@ void printerr(err_t err)
  *
  * Return: Nothing.
  */
-void print_builtin_err(char *msg, err_t msg)
+void print_builtin_err(char *msg, err_t err)
 {
 	seterr(err);
 	write(STDERR_FILENO, err.msg, _strlen(err.msg));
