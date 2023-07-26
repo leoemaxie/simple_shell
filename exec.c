@@ -46,6 +46,7 @@ int _exec(int fd, err_t err)
 	char *cmd;
 	char **tokens;
 
+	get_initial_env_len();
 	if (_getline(&cmd_arr, &n, STDIN_FILENO) == -1)
 	{
 		free(cmd);

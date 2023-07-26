@@ -39,7 +39,7 @@ int file_exec(char *filename, err_t err)
 
 	close_fd(fd);
 }
-
+/*
 void cleanup(err_t *e)
 {
 	free(e->name);
@@ -50,7 +50,7 @@ void perr(err_t err)
 {
 	//seterr(&err);
 	perror(err.msg);
-}
+}*/
 /**
  * main - Runs the hash shell.
  *
@@ -61,21 +61,19 @@ void perr(err_t err)
  */
 int main(int ac, char **av)
 {
-	err_t err = {NULL, 0, NULL, printerr};
+	err_t err = {NULL, 1, printerr};
 
 	(void)av;
 	(void)ac;
 
-	err.name = _strdup(av[0]);
-	err.msg = _strdup(av[0]);
-	printf("%c", (err.name)[0]);
-	//perr(err);
-	err.print(err);
-	return (0);
+	err.name = av[0];
+
 
 	if (ac > 1)
 		file_exec(av[1], err);
 
+	else if (!isatty(STDIN_FILENO))
+		_exec(STDIN_FILENO, err);
 	else
 		shell_exec(err);
 

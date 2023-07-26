@@ -22,14 +22,12 @@ extern char **environ;
  *
  * @name: Runtime name of this shell program.
  * @lineno: Line number where error occured.
- * @msg: Error message to print.
  * @print: pointer to the print function which prints an error msg to stderr.
 */
 typedef struct error
 {
 	char *name;
 	unsigned int lineno;
-	char *msg;
 	void (*print)(struct error err);
 } err_t;
 
@@ -52,6 +50,8 @@ int arrlen(char **arr);
 int cd(char **dirarr, err_t err);
 int exec_builtin(char *cmd, char **tokens, err_t err);
 int exit_shell(char **arr, err_t err);
+int unsetenv_c(char **arr, err_t err);
+int setenv_c(char **arr, err_t err);
 
 /** getline.c **/
 int getfd(const char *filename);
@@ -80,9 +80,10 @@ int sysexec(char *cmd, char **tokens, err_t err);
 
 /** errors.c **/
 void close_fd(int fd);
+char *create_err(err_t err);
 void printerr(err_t err);
-void print_builtin_err(char *msg, err_t err);
-char *seterr(err_t err);
+void print_cmd_err(char *cmd, char *msg, err_t err);
+void print_builtin_err(char **tokens, char *msg, err_t err);
 char *strnum(unsigned int lineno);
 
 /** string.c **/
@@ -103,6 +104,7 @@ int addenv(const char *name, const char *value);
 void create_env(char **envptr, const char *name, const char *value);
 void free_environ(char *env);
 int get_env_index(const char *name);
+int get_initial_env_len(void);
 
 /** write_output.c **/
 int _putchar(int c);

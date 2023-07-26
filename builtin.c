@@ -8,8 +8,8 @@ int exec_builtin(char *cmd, char **tokens, err_t err)
 		{cd, "cd"},
 		{printenv, "env"},
 		{exit_shell, "exit"},
-		//{setenv_c, "setenv"},
-		//{unsetenv_c, "unsetenv"}
+		{setenv_c, "setenv"},
+		{unsetenv_c, "unsetenv"}
 	};
 
 	for (i = 0; i < 3; i++)
@@ -54,13 +54,13 @@ int cd(char **dirarr, err_t err)
 
 	if (tokens > 2)
 	{
-		print_builtin_err(":cd: Too many arguments\n", err);
+		print_builtin_err(dirarr, "Too many arguments\n", err);
 		return (-1);
 	}
 
 	if (oldpwd == NULL)
 	{
-		print_builtin_err(":cd: Old PWD not set\n", err);
+		print_builtin_err(dirarr, "Old PWD not set\n", err);
 		return (-1);
 	}
 
@@ -82,24 +82,66 @@ int cd(char **dirarr, err_t err)
 	set_pwd = _setenv("PWD", dir, 0);
 	if (set_oldpwd == -1 || set_pwd == -1)
 	{
-		print_builtin_err(":cd: Invalid argument\n", err);
+		print_builtin_err(dirarr, " : Invalid argument\n", err);
 		return (-1);
 	}
 
 	return (0);
 }
-/*
-int unset_c(char **arr, err_t err)
-{
-	int tokens = arrlen(dirarr);
 
-	if (tokens > 1)
+int setenv_c(char **arr, err_t err)
+{
+	int tokens = arrlen(arr);
+
+	if (tokens > 3)
 	{
-		print_builtin_err(":unset: Too many arguments\n", err);
+		print_builtin_err(arr, " : Too many arguments\n", err);
 		return (-1);
 	}
 
-	if (tokens == 1)
+	else if (tokens < 2)
 	{
-		if unset
-}*/
+		print_builtin_err(arr, ": unset: Invalid argument\n", err);
+		return (-1);
+	}
+	
+	else
+	{
+		if (_setenv(arr[1], arr[2], 1) == -1)
+		{
+			print_builtin_err(arr, ": unset: Cannot such environment\n", err);
+			return (-1);
+		}
+		return (0);
+	}
+
+}
+
+int unsetenv_c(char **arr, err_t err)
+{
+	int tokens = arrlen(arr);
+
+	if (tokens > 2)
+	{
+		print_builtin_err(arr, ": unset: Too many arguments\n", err);
+		return (-1);
+	}
+
+	else if (tokens == 1)
+	{
+		print_builtin_err(arr, ": unset: Invalid argument\n", err);
+		return (-1);
+	}
+	
+	else
+	{
+		if (_unsetenv(arr[1]) == -1)
+		{
+			write(STDERR_FILENO, arr[1], _strlen(arr[1]));
+			print_builtin_err(arr, ": unset: No such environment\n", err);
+			return (-1);
+		}
+		return (0);
+	}
+
+}

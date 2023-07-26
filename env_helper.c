@@ -78,11 +78,8 @@ void create_env(char **envptr, const char *name, const char *value)
  */
 int addenv(const char *name, const char *value)
 {
-	int env_len = 0;
+	int env_len = arrlen(environ);
 	int char_len = _strlen(name) + _strlen(value) + 2; /* 2 chars: = and '\0' */
-
-	while (environ[env_len])
-		env_len++;
 
 	environ[env_len] = malloc(char_len);
 	environ[env_len + 1] = malloc(sizeof(char *));
@@ -94,4 +91,20 @@ int addenv(const char *name, const char *value)
 	environ[env_len + 1] = NULL;
 
 	return (0);
+}
+
+/**
+ * get_initial_env_len - Gets the initial length of the environ variable before
+ * modifications by the shell.
+ *
+ * Return: Inititial length of the environ shell.
+ */
+int get_initial_env_len(void)
+{
+	static int len;
+
+	if (len == 0)
+		len = arrlen(environ);
+
+	return (len);
 }
