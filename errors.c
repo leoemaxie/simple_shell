@@ -118,6 +118,7 @@ void print_cmd_err(char *cmd, char *msg, err_t err)
 	{
 		write(STDERR_FILENO, error, _strlen(error));
 		write(STDERR_FILENO, cmd, _strlen(cmd));
+		write(STDERR_FILENO, cmd, _strlen(cmd));
 		write(STDERR_FILENO, msg, _strlen(msg));
 		free(error);
 	}
@@ -136,8 +137,8 @@ void print_cmd_err(char *cmd, char *msg, err_t err)
 void print_builtin_err(char **tokens, char *msg, err_t err)
 {
 	char *error = create_err(err);
-	int size = 0;
-	char *err_msg;
+	int size = 6; /* Extra delimiters */
+	char *err_msg = NULL;
 
 	if (error)
 	{
@@ -150,13 +151,18 @@ void print_builtin_err(char **tokens, char *msg, err_t err)
 		if (err_msg)
 		{
 			_strcpy(err_msg, error);
+			_strcat(err_msg, ": ");
 			_strcat(err_msg, tokens[0]);
-			_strcat(err_msg, msg);
+			_strcat(err_msg, ": ");
 
 			if (tokens[1])
+			{
 				_strcat(err_msg, tokens[1]);
-
+				_strcat(err_msg, ": ");
+			}
+			_strcat(err_msg, msg);
 			write(STDERR_FILENO, err_msg, size);
+			free(err_msg);
 		}
 	}
 }

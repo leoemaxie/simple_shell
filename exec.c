@@ -61,7 +61,7 @@ int _exec(int fd, err_t err)
 
 	if (status == -1)
 	{
-		err.print(err);
+		print_cmd_err(tokens[0], "Command Not Found\n", err);
 		return (-1);
 	}
 		
@@ -70,6 +70,7 @@ int _exec(int fd, err_t err)
 
 int sysexec(char *cmd, char **tokens, err_t err)
 {
+	int status = 0;
 	pid_t pid;
 	char *path = get_cmd_path(cmd);
 
@@ -93,6 +94,13 @@ int sysexec(char *cmd, char **tokens, err_t err)
 			err.print(err);
 			return (-1);
 		}
+		wait(&status);
+	}
+
+	if (status == -1)
+	{
+		err.print(err);
+		return (-1);
 	}
 	return (1);
 }
