@@ -6,7 +6,11 @@
  *
  * @s: The string to convert.
  *
+<<<<<<< HEAD
  * Return: The integer represebtation of the string, 0 otherwise;
+=======
+ * Return: The integer represebtation of the string, 0 otherwise; 
+>>>>>>> 41ab9db03167c760c2773bd87d1dde0e57e27f4c
  */
 int _atoi(const char *s)
 {

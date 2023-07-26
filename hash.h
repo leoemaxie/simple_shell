@@ -106,14 +106,12 @@ extern char **environ;
  *
  * @name: Runtime name of this shell program.
  * @lineno: Line number where error occured.
- * @msg: Error message to print.
  * @print: pointer to the print function which prints an error msg to stderr.
 */
 typedef struct error
 {
 	char *name;
 	unsigned int lineno;
-	char *msg;
 	void (*print)(struct error err);
 } err_t;
 
@@ -136,6 +134,8 @@ int arrlen(char **arr);
 int cd(char **dirarr, err_t err);
 int exec_builtin(char *cmd, char **tokens, err_t err);
 int exit_shell(char **arr, err_t err);
+int unsetenv_c(char **arr, err_t err);
+int setenv_c(char **arr, err_t err);
 
 /** getline.c **/
 int getfd(const char *filename);
@@ -148,7 +148,7 @@ int resize(char **lineptr, ssize_t old_len, ssize_t new_len);
 int _atoi(const char *s);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 int arrlen(char **arr);
-void cleanup(err_t e);
+void cleanup(err_t *e);
 
 /** tokenize.c **/
 char *_strtok(char *s, const char *delim);
@@ -159,14 +159,15 @@ char **tokenize(char *line);
 
 /** exec.c **/
 int _exec(int fd, err_t err);
-char *get_cmd_path(char *cmd, err_t err);
+char *get_cmd_path(char *cmd);
 int sysexec(char *cmd, char **tokens, err_t err);
 
 /** errors.c **/
 void close_fd(int fd);
+char *create_err(err_t err);
 void printerr(err_t err);
-void print_builtin_err(char *msg, err_t err);
-void seterr(err_t err);
+void print_cmd_err(char *cmd, char *msg, err_t err);
+void print_builtin_err(char **tokens, char *msg, err_t err);
 char *strnum(unsigned int lineno);
 
 /** string.c **/
@@ -187,6 +188,7 @@ int addenv(const char *name, const char *value);
 void create_env(char **envptr, const char *name, const char *value);
 void free_environ(char *env);
 int get_env_index(const char *name);
+int get_initial_env_len(void);
 
 /** write_output.c **/
 int _putchar(int c);
