@@ -14,6 +14,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
+#include "hash.h"
 extern char **environ;
 
 /**

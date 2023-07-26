@@ -17,8 +17,8 @@ int test_getenv(void)
 
 int test_cmd_path(void)
 {
-	err_t err = {"hash", 0, "error", printerr};
-	char *cmd_path = get_cmd_path("vi", err);
+	err_t err = {"hash", 0, printerr};
+	char *cmd_path = get_cmd_path("vi");
 	
 	printf("%s\n", cmd_path);
 	free(cmd_path);

@@ -38,18 +38,7 @@ int file_exec(char *filename, err_t err)
 
 	close_fd(fd);
 }
-/*
-void cleanup(err_t *e)
-{
-	free(e->name);
-	free(e->msg);
-}
 
-void perr(err_t err)
-{
-	//seterr(&err);
-	perror(err.msg);
-}*/
 /**
  * main - Runs the hash shell.
  *

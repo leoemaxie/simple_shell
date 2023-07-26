@@ -18,7 +18,6 @@ char *get_cmd_path(char *cmd)
 		return (NULL);
 
 	token = _strtok(path, ":");
-	free(path);
 
 	if (cmd[0] == '/')
 		return (cmd);
@@ -30,11 +29,15 @@ char *get_cmd_path(char *cmd)
 		_strcat(cmd_path, cmd);
 
 		if (access(cmd_path, X_OK) == 0)
+		{
+			free(path);
 			return (cmd_path);
+		}
 
 		token = _strtok(NULL, ":");
 	}
 
+	free(path);
 	free(cmd_path);
 	return (NULL);
 }
