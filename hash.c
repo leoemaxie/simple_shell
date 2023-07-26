@@ -15,8 +15,7 @@ void shell_exec(err_t err)
 	while (1)
 	{
 		write(STDOUT_FILENO, "($) ", 4);
-		if (_exec(STDIN_FILENO, err) == -1)
-			;
+		_exec(STDIN_FILENO, err);
 	}
 }
 
@@ -31,7 +30,7 @@ int file_exec(char *filename, err_t err)
 	{
 		if (_exec(fd, err) == -1)
 		{
-			//err.print(err);
+			/*err.print(err);*/
 			continue;
 		}
 		err.lineno++;

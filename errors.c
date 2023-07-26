@@ -10,8 +10,7 @@
  */
 void close_fd(int fd)
 {
-	if (close(fd) == -1)
-		;
+	if (close(fd) == -1) {}
 
 }
 

@@ -4,7 +4,7 @@ int exec_builtin(char *cmd, char **tokens, err_t err)
 {
 	int i;
 	btn_t builtins[] = {
-		//{alias, "alias"},
+		/*{alias, "alias"},*/
 		{cd, "cd"},
 		{printenv, "env"},
 		{exit_shell, "exit"},
