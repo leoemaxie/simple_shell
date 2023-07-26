@@ -1,5 +1,6 @@
 #include "hash.h"
 
+#include <stdio.h>
 /**
  * get_cmd_path - Adds, changes, and deletes environment variables.
  *
@@ -18,13 +19,8 @@ char *get_cmd_path(char *cmd)
 		return (NULL);
 
 	token = _strtok(path, ":");
-
 	if (cmd[0] == '/')
-	{
-		if (access(cmd_path, X_OK) == 0)
-			return (cmd);
 		return (NULL);
-	}
 
 	while (token != NULL)
 	{
@@ -46,6 +42,28 @@ char *get_cmd_path(char *cmd)
 	return (NULL);
 }
 
+/**
+ * get_cmd_name - Getsbthe namebofban executable
+ *
+ * @args: Array of arguments passed to the command.
+ *
+ * Return: Nothing.
+ */
+void get_cmd_name(char **args)
+{
+	char *token = _strtok(args[0], "/");
+
+	if (args[0][1] == '/')
+	{
+		while (token != NULL)
+		{
+			free(args[0]);
+			args[0] = _strdup(token);
+			printf("%s\n\n", args[0]);
+			token = _strtok(NULL, "/");
+		}
+	}
+}
 /**
  * _exec - Executes commands.
  *
@@ -84,7 +102,7 @@ int _exec(int fd, err_t err)
 		status = sysexec(tokens[0], tokens, err);
 
 	if (status == -2)
-		perr(tokens, "Command Not Found\n", err, 0);
+		perr(tokens, "not found\n", err, 0);
 
 	free(cmd_arr);
 	free_tokens(tokens);
@@ -109,14 +127,24 @@ int sysexec(char *cmd, char **args, err_t err)
 	char cmd_path[BUFF_SIZE];
 	char *path = get_cmd_path(cmd);
 
-	if (path == NULL)
+	if (cmd[0] == '/')
 	{
-		free(path);
-		return (-2);
+		if (access(cmd, X_OK) != 0)
+			return (-2);
+		_strcpy(cmd_path, cmd);
+		status = 1;
 	}
 
-	_strcpy(cmd_path, path);
-	free(path);
+	if (status == 0)
+	{
+		if (path == NULL)
+		{
+			free(path);
+			return (-2);
+		}
+		_strcpy(cmd_path, path);
+		free(path);
+	}
 
 	pid = fork();
 
