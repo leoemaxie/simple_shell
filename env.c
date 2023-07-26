@@ -42,7 +42,7 @@ int printenv(char **arr, err_t err)
 {
 	if (arrlen(arr) > 1)
 	{
-		print_builtin_err(arr, "Too many arguments\n", err);
+		perr(arr, "Too many arguments\n", err, 1);
 		return (-1);
 	}
 

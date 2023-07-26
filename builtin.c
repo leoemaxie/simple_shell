@@ -7,12 +7,11 @@ int exec_builtin(char *cmd, char **tokens, err_t err)
 		/*{alias, "alias"},*/
 		{cd, "cd"},
 		{printenv, "env"},
-		{exit_shell, "exit"},
 		{setenv_c, "setenv"},
 		{unsetenv_c, "unsetenv"}
 	};
 
-	for (i = 0; i < 5; i++)
+	for (i = 0; i < 2; i++)
 	{
 		if (_strcmp(cmd, builtins[i].cmd))
 		{
@@ -23,13 +22,27 @@ int exec_builtin(char *cmd, char **tokens, err_t err)
 	return (0);
 }
 
-int exit_shell(char **arr, err_t err)
+int exit_shell(char *cmd_arr, char **arr, err_t err)
 {
+	int status = 0;
 	(void)err;
 
 	if (arrlen(arr) > 1)
-		exit(_atoi(arr[1]));
-	exit(0);
+	{
+		status = _atoi(arr[1]);
+
+		if (status == 0)
+		{
+			perr(arr, "Not a number\n", err, 1);
+			free(cmd_arr);
+			free_tokens(arr);
+			return (-1);
+		}
+	}
+
+	free(cmd_arr);
+	free_tokens(arr);
+	exit(status);
 }
 
 int arrlen(char **arr)
@@ -54,13 +67,13 @@ int cd(char **dirarr, err_t err)
 
 	if (tokens > 2)
 	{
-		print_builtin_err(dirarr, "Too many arguments\n", err);
+		perr(dirarr, "Too many arguments\n", err, 1);
 		return (-1);
 	}
 
 	if (oldpwd == NULL)
 	{
-		print_builtin_err(dirarr, "Old PWD not set\n", err);
+		perr(dirarr, "Old PWD not set\n", err, 1);
 		return (-1);
 	}
 
@@ -82,7 +95,7 @@ int cd(char **dirarr, err_t err)
 	set_pwd = _setenv("PWD", dir, 0);
 	if (set_oldpwd == -1 || set_pwd == -1)
 	{
-		print_builtin_err(dirarr, " : Invalid argument\n", err);
+		perr(dirarr, " : Invalid argument\n", err, 1);
 		return (-1);
 	}
 
@@ -95,19 +108,19 @@ int setenv_c(char **arr, err_t err)
 
 	if (tokens > 3)
 	{
-		print_builtin_err(arr, "Too many arguments\n", err);
+		perr(arr, "Too many arguments\n", err, 1);
 		return (-1);
 	}
 
 	else if (tokens < 2)
 	{
-		print_builtin_err(arr, "Invalid argument\n", err);
+		perr(arr, "Invalid argument\n", err, 1);
 		return (-1);
 	}
 
-	if (_setenv(arr[1], arr[2], 1) == -1)
+	if (_setenv(arr[1], arr[2], 0) == -1)
 	{
-		print_builtin_err(arr, "Cannot set environment\n", err);
+		perr(arr, "Cannot set environment\n", err, 1);
 		return (-1);
 	}
 	return (0);
@@ -120,20 +133,19 @@ int unsetenv_c(char **arr, err_t err)
 
 	if (tokens > 2)
 	{
-		print_builtin_err(arr, "Too many arguments\n", err);
+		perr(arr, "Too many arguments\n", err, 1);
 		return (-1);
 	}
 
 	else if (tokens == 1)
 	{
-		print_builtin_err(arr, "Invalid argument\n", err);
+		perr(arr, "Invalid argument\n", err, 1);
 		return (-1);
 	}
 
 	if (_unsetenv(arr[1]) == -1)
 	{
-		write(STDERR_FILENO, arr[1], _strlen(arr[1]));
-		print_builtin_err(arr, "No such environment\n", err);
+		perr(arr, "No such environment\n", err, 1);
 		return (-1);
 	}
 	return (0);

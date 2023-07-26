@@ -10,7 +10,7 @@
  */
 void close_fd(int fd)
 {
-	if (close(fd) == -1) {}
+	close(fd);
 
 }
 
@@ -100,40 +100,19 @@ void printerr(err_t err)
 }
 
 /**
- * print_cmd_err  - Prints a short message about the error occured while
- * executing builtin commands to stderr.
+ * perr - Prints a short message about the error occured while
+ * executing commands to stderr.
  *
- * @err: Error structure containing the nature of the error while executing
+ * @tokens: An array of token strings.
  * shell commands.
  * @msg: Error message to print.
+ * @err: Error structure containing the nature of the error while executing
+ * @is_builtin: Indicates whether a command is builtin or executed from a
+ * syscall.
  *
  * Return: Nothing.
  */
-void print_cmd_err(char *cmd, char *msg, err_t err)
-{
-	char *error = create_err(err);
-
-	if (error)
-	{
-		write(STDERR_FILENO, error, _strlen(error));
-		write(STDERR_FILENO, cmd, _strlen(cmd));
-		write(STDERR_FILENO, cmd, _strlen(cmd));
-		write(STDERR_FILENO, msg, _strlen(msg));
-		free(error);
-	}
-}
-
-/**
- * print_builtin_err - Prints a short message about the error occured while
- * executing builtin commands to stderr.
- *
- * @err: Error structure containing the nature of the error while executing
- * shell commands.
- * @msg: Error message to print.
- *
- * Return: Nothing.
- */
-void print_builtin_err(char **tokens, char *msg, err_t err)
+void perr(char **tokens, char *msg, err_t err, int is_builtin)
 {
 	char *error = create_err(err);
 	int size = 6; /* Extra delimiters */
@@ -143,7 +122,7 @@ void print_builtin_err(char **tokens, char *msg, err_t err)
 	{
 		size += (_strlen(error) + _strlen(msg) + _strlen(tokens[0]));
 
-		if (tokens[1])
+		if (tokens[1] && is_builtin)
 			size += _strlen(tokens[1]);
 
 		err_msg = malloc(size);
@@ -154,7 +133,7 @@ void print_builtin_err(char **tokens, char *msg, err_t err)
 			_strcat(err_msg, tokens[0]);
 			_strcat(err_msg, ": ");
 
-			if (tokens[1])
+			if (is_builtin && tokens[1])
 			{
 				_strcat(err_msg, tokens[1]);
 				_strcat(err_msg, ": ");
@@ -162,6 +141,7 @@ void print_builtin_err(char **tokens, char *msg, err_t err)
 			_strcat(err_msg, msg);
 			write(STDERR_FILENO, err_msg, size);
 			free(err_msg);
+			free(error);
 		}
 	}
 }

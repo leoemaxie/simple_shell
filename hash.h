@@ -133,7 +133,7 @@ typedef struct builtin
 int arrlen(char **arr);
 int cd(char **dirarr, err_t err);
 int exec_builtin(char *cmd, char **tokens, err_t err);
-int exit_shell(char **arr, err_t err);
+int exit_shell(char *cmd, char **arr, err_t err);
 int unsetenv_c(char **arr, err_t err);
 int setenv_c(char **arr, err_t err);
 
@@ -149,6 +149,7 @@ int _atoi(const char *s);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 int arrlen(char **arr);
 void cleanup(err_t *e);
+void clean_env(void);
 
 /** tokenize.c **/
 char *_strtok(char *s, const char *delim);
@@ -165,9 +166,8 @@ int sysexec(char *cmd, char **tokens, err_t err);
 /** errors.c **/
 void close_fd(int fd);
 char *create_err(err_t err);
+void perr(char **tokens, char *msg, err_t err, int is_builtin);
 void printerr(err_t err);
-void print_cmd_err(char *cmd, char *msg, err_t err);
-void print_builtin_err(char **tokens, char *msg, err_t err);
 char *strnum(unsigned int lineno);
 
 /** string.c **/
