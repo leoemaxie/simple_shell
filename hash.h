@@ -75,7 +75,7 @@ char **tokenize(char *line);
 
 /** exec.c **/
 int _exec(int fd, err_t err);
-char *get_cmd_path(char *cmd, err_t err);
+char *get_cmd_path(char *cmd);
 int sysexec(char *cmd, char **tokens, err_t err);
 
 /** errors.c **/
