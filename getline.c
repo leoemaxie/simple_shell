@@ -14,7 +14,7 @@ int line_end(int c)
 		case '\n':
 			return (1);
 		case EOF:
-			exit (0);
+			exit(0);
 		case CTRL_KEY('c'):
 			exit(1);
 		default:

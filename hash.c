@@ -1,39 +1,52 @@
 #include "hash.h"
 
 /**
- * read_input - Reads any input/data/files/commands entered into the shell
- * one line at a time and copies into a buffer and terminates it with a NUL.
+ * shell_exec - Executes a shell command.
  *
- * @buf: Pointer to a buffer to copy read input into.
- * @fd: The file descriptor to read from.
+ * @name: The name of the program.
  *
- * Return: 1 on Successful read, 0 on failure.
+ * Return: Nothing.
  */
-
-void shell_exec(err_t err)
+void shell_exec(char *name)
 {
+	err_t err = {NULL, 0, printerr};
+
+	err.name = name;
 	while (1)
 	{
+		err.lineno++;
 		write(STDOUT_FILENO, "($) ", 4);
 		_exec(STDIN_FILENO, err);
 	}
 }
 
-int file_exec(char *filename, err_t err)
+/**
+ * file_exec- Executes shell commands from a file.
+ *
+ * @argv: Array of command line arguments.
+ *
+ * Return: Nothing.
+ */
+int file_exec(char **argv)
 {
-	int fd = getfd(filename);
+	int fd = getfd(argv[1]);
+	err_t err = {NULL, 1, printerr};
 
+	err.name = argv[0];
 	if (fd == -1)
+	{
 		err.print(err);
+		exit(EXIT_FAILURE);
+	}
 
 	while (1)
 	{
+		err.lineno++;
 		if (_exec(fd, err) == -1)
 		{
-			/*err.print(err);*/
+			err.print(err);
 			continue;
 		}
-		err.lineno++;
 	}
 
 	close_fd(fd);
@@ -49,21 +62,19 @@ int file_exec(char *filename, err_t err)
  */
 int main(int ac, char **av)
 {
-	err_t err = {NULL, 1, printerr};
+	err_t err = {NULL, 0, printerr};
 
+	err.name = av[0];
 	(void)av;
 	(void)ac;
 
-	err.name = av[0];
-
-
 	if (ac > 1)
-		file_exec(av[1], err);
+		file_exec(av);
 
 	else if (!isatty(STDIN_FILENO))
 		_exec(STDIN_FILENO, err);
 	else
-		shell_exec(err);
+		shell_exec(av[0]);
 
 	return (0);
 }

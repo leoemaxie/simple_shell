@@ -6,7 +6,8 @@
  * @name: Pointer to a character string that contains the name of the
  * environment variable to get.
  *
- * Return: The value of an environment variable if found or NULL if it can not be found.
+ * Return: The value of an environment variable if found or NULL if it can not
+ * be found.
  */
 char *_getenv(const char *name)
 {
@@ -36,13 +37,17 @@ char *_getenv(const char *name)
 /**
  * printenv - Prints the environment variables.
  *
- * Return: Nothing.
+ * @args: Array of arguments passed to a command.
+ * @err: Error structure containing the nature of the error occured while
+ * executing the command.
+ *
+ * Return: 1 on success, 0 on failure.
  */
-int printenv(char **arr, err_t err)
+int printenv(char **args, err_t err)
 {
-	if (arrlen(arr) > 1)
+	if (arr_size(args) > 1)
 	{
-		perr(arr, "Too many arguments\n", err, 1);
+		perr(args, "Too many arguments\n", err, 1);
 		return (-1);
 	}
 

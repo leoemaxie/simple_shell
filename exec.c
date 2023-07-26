@@ -20,7 +20,11 @@ char *get_cmd_path(char *cmd)
 	token = _strtok(path, ":");
 
 	if (cmd[0] == '/')
-		return (cmd);
+	{
+		if (access(cmd_path, X_OK) == 0)
+			return (cmd);
+		return (NULL);
+	}
 
 	while (token != NULL)
 	{
@@ -42,6 +46,15 @@ char *get_cmd_path(char *cmd)
 	return (NULL);
 }
 
+/**
+ * _exec - Executes commands.
+ *
+ * @fd: The file descriptor to execute commands from.
+ * @err: Error structure containing the nature of the error occured while
+ * executing commands.
+ *
+ * Return: 1 on success, 0 on failure.
+ */
 int _exec(int fd, err_t err)
 {
 	int status = 0;
@@ -64,23 +77,32 @@ int _exec(int fd, err_t err)
 		return (-1);
 	}
 
-	if(_strcmp(tokens[0], "exit"))
+	if (_strcmp(tokens[0], "exit"))
 		return (exit_shell(cmd_arr, tokens, err));
-	
+
 	if (!exec_builtin(tokens[0], tokens, err))
 		status = sysexec(tokens[0], tokens, err);
-
 
 	if (status == -2)
 		perr(tokens, "Command Not Found\n", err, 0);
 
 	free(cmd_arr);
 	free_tokens(tokens);
-		
+
 	return (status);
 }
 
-int sysexec(char *cmd, char **tokens, err_t err)
+/**
+ * sysexec - Executes a system command.
+ *
+ * @cmd: The command to execute.
+ * @args: Array of arguments passed to the command.
+ * @err: Error structure containing the nature of the error occured while
+ * executing the command.
+ *
+ * Return: 1 on success, 0 on failure.
+ */
+int sysexec(char *cmd, char **args, err_t err)
 {
 	int status = 0;
 	pid_t pid;
@@ -100,12 +122,12 @@ int sysexec(char *cmd, char **tokens, err_t err)
 
 	if (pid < 0)
 	{
-		 err.print(err);
-		 return (-1);
+		err.print(err);
+		return (-1);
 	}
 	else if (pid == 0)
 	{
-		if (execve(cmd_path, tokens, environ) == -1)
+		if (execve(cmd_path, args, environ) == -1)
 		{
 			err.print(err);
 			return (-1);

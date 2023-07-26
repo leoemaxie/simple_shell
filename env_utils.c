@@ -78,7 +78,7 @@ void create_env(char **envptr, const char *name, const char *value)
  */
 int addenv(const char *name, const char *value)
 {
-	int env_len = arrlen(environ);
+	int env_len = arr_size(environ);
 	int char_len = _strlen(name) + _strlen(value) + 2; /* 2 chars: = and '\0' */
 
 	environ[env_len] = malloc(char_len);
@@ -104,7 +104,7 @@ int get_initial_env_len(void)
 	static int len;
 
 	if (len == 0)
-		len = arrlen(environ);
+		len = arr_size(environ);
 
 	return (len);
 }

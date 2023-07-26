@@ -1,12 +1,11 @@
 #include "hash.h"
 
 /**
- *
- * _atoi - Convert a string to an integer.
+ * _atoi - Converts a string to an integer.
  *
  * @s: The string to convert.
  *
- * Return: The integer represebtation of the string, 0 otherwise; 
+ * Return: The integer represebtation of the string, 0 otherwise.
  */
 int _atoi(const char *s)
 {
