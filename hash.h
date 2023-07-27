@@ -107,6 +107,7 @@ int _atoi(const char *s);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 int arr_size(char **arr);
 void clean_env(void);
+void signal_handler(int signum);
 
 /** write_output.c **/
 int _putchar(int c);

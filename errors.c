@@ -41,8 +41,8 @@ char *strnum(unsigned int lineno)
 
 	for (i = 0; len < 11; i++, len++)
 		ptr[i] = buf[len];
-	ptr[i] = '\0';
 
+	ptr[i] = '\0';
 	return (ptr);
 }
 

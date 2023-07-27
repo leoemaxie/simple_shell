@@ -59,7 +59,6 @@ void get_cmd_name(char **args)
 		{
 			free(args[0]);
 			args[0] = _strdup(token);
-			printf("%s\n\n", args[0]);
 			token = _strtok(NULL, "/");
 		}
 	}
@@ -153,20 +152,23 @@ int sysexec(char *cmd, char **args, err_t err)
 		err.print(err);
 		return (-1);
 	}
-	else if (pid == 0)
+	else if (pid > 0)
+		waitpid(pid, &status, 0);
+
+	else
 	{
 		if (execve(cmd_path, args, environ) == -1)
 		{
 			err.print(err);
 			return (-1);
 		}
-		wait(&status);
-	}
-
-	if (status == -1)
-	{
-		err.print(err);
-		return (-1);
+		if (WIFSTOPPED(status))
+			return (-1);
+		if (status == -1)
+		{
+			err.print(err);
+			return (-1);
+		}
 	}
 	return (1);
 }

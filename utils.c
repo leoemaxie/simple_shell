@@ -37,3 +37,10 @@ int arr_size(char **arr)
 
 	return (size);
 }
+
+void signal_handler(int signum)
+{
+	(void)signum;
+
+	write(STDOUT_FILENO, "\n($) ", 5);
+}

@@ -14,6 +14,7 @@ void shell_exec(char *name)
 	err.name = name;
 	while (1)
 	{
+		signal(SIGINT, signal_handler);
 		err.lineno++;
 		write(STDOUT_FILENO, "($) ", 4);
 		_exec(STDIN_FILENO, err);
@@ -43,10 +44,7 @@ int file_exec(char **argv)
 	{
 		err.lineno++;
 		if (_exec(fd, err) == -1)
-		{
 			err.print(err);
-			continue;
-		}
 	}
 
 	close_fd(fd);

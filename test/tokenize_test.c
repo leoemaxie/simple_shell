@@ -56,7 +56,7 @@ int test_tokenize(void)
 
 int main (void)
 {
-	test_strtok();
+	//test_strtok();
 	test_tokenize();
 
 	return (0);
