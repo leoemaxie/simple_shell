@@ -148,7 +148,6 @@ int sysexec(char *cmd, char **args, err_t err)
 
 	if (path == NULL)
 		return (-2);
-	get_cmd_name(args);
 	pid = fork();
 
 	if (pid < 0)
