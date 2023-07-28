@@ -1,6 +1,6 @@
 #include "hash.h"
 
-#define MAX_SIZE 512
+#define MAX_SIZE 128
 /**
  * is_delim - Checks whether a character is a delimeter.
  *

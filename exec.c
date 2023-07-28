@@ -57,32 +57,27 @@ char *get_cmd_path(char *cmd, int *path_stat)
 /**
  * get_cmd_name - Getsbthe namebofban executable
  *
- * @args: Array of arguments passed to the command.
+ * @path: Path of the command.
  *
  * Return: Nothing.
  */
-void get_cmd_name(char **args)
+char *get_cmd_name(char *path)
 {
-	int i = 0, len;
+	int i = 0, len = _strlen(path);
 	char *name;
 
-	if (args[0][0] == '/')
-	{
-		len = _strlen(args[0]);
+	for (; path[len] != '/'; len--)
+		i++;
 
-		for (; args[0][len] != '/'; len--)
-			i++;
+	name = malloc(i);
+	if (name == NULL)
+		return (NULL);
 
-		name = malloc(i);
-		if (name != NULL)
-		{
-			name[i] = '\0';
-			for (; i >= 0; --i)
-				name[i] = args[0][len + i + 1];
-			free(args[0]);
-			args[0] = name;
-		}
-	}
+	name[i] = '\0';
+	for (; i >= 0; --i)
+		name[i] = path[len + i + 1];
+
+	return (name);
 }
 /**
  * _exec - Executes commands.
@@ -144,13 +139,12 @@ int sysexec(char *cmd, char **args, err_t err)
 {
 	int status = 0, path_stat;
 	pid_t pid;
-	char *path = get_cmd_path(cmd, &path_stat);
+	char *name, *path = get_cmd_path(cmd, &path_stat);
 
 	if (path == NULL)
 		return (-2);
-	get_cmd_name(args);
-	pid = fork();
 
+	pid = fork();
 	if (pid < 0)
 	{
 		err.print(err);
@@ -162,6 +156,14 @@ int sysexec(char *cmd, char **args, err_t err)
 		waitpid(pid, &status, 0);
 	else
 	{
+		if (path_stat == 1)
+		{
+			name = get_cmd_name(args[0]);
+			if (name == NULL)
+				return (-1);
+			free(args[0]);
+			args[0] = name;
+		}
 		if (execve(path, args, environ) == -1)
 		{
 			err.print(err);
