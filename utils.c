@@ -38,6 +38,13 @@ int arr_size(char **arr)
 	return (size);
 }
 
+/**
+ * signal_handler - Handles the SIGINT (CTRL + C) signal.
+ *
+ * @signum: The signal number.
+ *
+ * Return: Nothing.
+ */
 void signal_handler(int signum)
 {
 	(void)signum;

@@ -35,7 +35,7 @@ char *strnum(unsigned int lineno)
 		lineno /= 10;
 	}
 
-	ptr = malloc(11 - len);
+	ptr = malloc(12 - len);
 	if (ptr == NULL)
 		return (NULL);
 
@@ -115,7 +115,7 @@ void printerr(err_t err)
 void perr(char **tokens, char *msg, err_t err, int is_builtin)
 {
 	char *error = create_err(err);
-	int size = 6; /* Extra delimiters */
+	int size = 7; /* Extra delimiters */
 	char *err_msg = NULL;
 
 	if (error)

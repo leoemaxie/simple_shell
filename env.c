@@ -28,6 +28,7 @@ char *_getenv(const char *name)
 
 		for (j = 0, i += 1;  env[i]; i++, j++)
 			env_val[j] = env[i];
+		env_val[j] = '\0';
 
 		return (env_val);
 	}

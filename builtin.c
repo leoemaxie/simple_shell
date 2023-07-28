@@ -145,7 +145,7 @@ int setenv_c(char **args, err_t err)
 		return (-1);
 	}
 
-	if (_setenv(args[1], args[2], 0) == -1)
+	if (_setenv(args[1], args[2], 1) == -1)
 	{
 		perr(args, "Cannot set environment\n", err, 1);
 		return (-1);

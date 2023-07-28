@@ -1,5 +1,6 @@
 #include "hash.h"
 
+#define MAX_SIZE 512
 /**
  * is_delim - Checks whether a character is a delimeter.
  *
@@ -53,7 +54,7 @@ char *_strtok(char *s, const char *delim)
 	}
 
 	slice[i] = '\0';
-	token = slice;
+	token = _strdup(slice);
 	buf += i;
 
 	if (i > 0 && buf[i] == '\0')
@@ -62,7 +63,8 @@ char *_strtok(char *s, const char *delim)
 	if (buf[i] == '\0')
 	{
 		buf = NULL;
-		token = NULL;
+		free(token);
+		return (NULL);
 	}
 	return (token);
 }
@@ -78,7 +80,7 @@ char *_strtok(char *s, const char *delim)
 char **tokenize(char *line)
 {
 	int i = 0;
-	char **token_arr = malloc(sizeof(char *));
+	char **token_arr = malloc(sizeof(char *) * MAX_SIZE);
 	char *token = _strtok(line, " ");
 
 	if (token_arr == NULL)
@@ -86,7 +88,7 @@ char **tokenize(char *line)
 
 	while (token != NULL)
 	{
-		token_arr[i] = _strdup(token);
+		token_arr[i] = token;
 
 		if (token_arr[i] == NULL)
 			return (NULL);

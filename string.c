@@ -89,7 +89,7 @@ char *_strcat(char *dest, const char *src)
 char *_strdup(char *str)
 {
 	int i;
-	char *new_str = str != NULL ? malloc(_strlen(str)) : NULL;
+	char *new_str = str != NULL ? malloc(_strlen(str) + 1) : NULL;
 
 	if (new_str == NULL)
 		return (NULL);

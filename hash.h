@@ -74,7 +74,7 @@ int printenv(char **args, err_t err);
 
 /** exec.c **/
 int _exec(int fd, err_t err);
-char *get_cmd_path(char *cmd);
+char *get_cmd_path(char *cmd, int *path_stat);
 int sysexec(char *cmd, char **args, err_t err);
 
 /** getline.c **/

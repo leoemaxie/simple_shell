@@ -42,9 +42,9 @@ int file_exec(char **argv)
 
 	while (1)
 	{
-		err.lineno++;
 		if (_exec(fd, err) == -1)
 			err.print(err);
+		err.lineno++;
 	}
 
 	close_fd(fd);
