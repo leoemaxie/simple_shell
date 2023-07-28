@@ -18,7 +18,7 @@ char *get_cmd_path(char *cmd, int *path_stat)
 	if (cmd[0] == '/')
 	{
 		*path_stat = 1;
-		if (access(cmd, X_OK) != 0)
+		if (access(cmd, X_OK) == 0)
 			return (cmd);
 		return (NULL);
 	}
@@ -63,15 +63,24 @@ char *get_cmd_path(char *cmd, int *path_stat)
  */
 void get_cmd_name(char **args)
 {
-	char *token = _strtok(args[0], "/");
+	int i = 0, len;
+	char *name;
 
-	if (args[0][1] == '/')
+	if (args[0][0] == '/')
 	{
-		while (token != NULL)
+		len = _strlen(args[0]);
+
+		for (; args[0][len] != '/'; len--)
+			i++;
+
+		name = malloc(i);
+		if (name != NULL)
 		{
+			name[i] = '\0';
+			for (; i >= 0; --i)
+				name[i] = args[0][len + i + 1];
 			free(args[0]);
-			args[0] = _strdup(token);
-			token = _strtok(NULL, "/");
+			args[0] = name;
 		}
 	}
 }
@@ -139,6 +148,7 @@ int sysexec(char *cmd, char **args, err_t err)
 
 	if (path == NULL)
 		return (-2);
+	get_cmd_name(args);
 	pid = fork();
 
 	if (pid < 0)

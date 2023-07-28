@@ -62,13 +62,10 @@ int resize(char **lineptr, ssize_t old_len, ssize_t new_len)
 int fill_buf(char **lineptr, char *buf, ssize_t old_len, ssize_t new_len)
 {
 	int i, j = 0;
-	int end_of_line;
 
 	for (i = old_len; i < new_len; i++)
 	{
-		end_of_line = line_end(buf[j]);
-
-		if (end_of_line)
+		if (buf[j] == '\n')
 		{
 			if (j < 1)
 				return (-1);
@@ -106,7 +103,7 @@ ssize_t _getline(char **lineptr, size_t *n, int fd)
 		if (nread == -1)
 			return (-1);
 		if (nread == 0)
-			break;
+			exit(0);
 
 		len += nread;
 		*n = len;
