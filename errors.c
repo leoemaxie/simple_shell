@@ -116,7 +116,7 @@ void perr(char **tokens, char *msg, err_t err, int is_builtin)
 {
 	char *error = create_err(err);
 	int size = 7; /* Extra delimiters */
-	char *err_msg;
+	char *err_msg = NULL;
 
 	if (error)
 	{

@@ -10,6 +10,7 @@
 #include <signal.h>
 #include <stdarg.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
@@ -73,7 +74,7 @@ int printenv(char **args, err_t err);
 
 /** exec.c **/
 int _exec(int fd, err_t err);
-char *get_cmd_name(char *path);
+char *get_cmd_path(char *cmd, int *path_stat);
 int sysexec(char *cmd, char **args, err_t err);
 
 /** getline.c **/
@@ -101,14 +102,12 @@ void free_tokens(char **token_arr);
 int is_delim(char c, const char *delim);
 char **tokenize(char *line);
 
-void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
-int _atoi(const char *s);
-
 /** utils.c */
+int _atoi(const char *s);
+void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 int arr_size(char **arr);
 void clean_env(void);
 void signal_handler(int signum);
-void strrev(char *s);
 
 /** write_output.c **/
 int _putchar(int c);
