@@ -22,7 +22,7 @@ char *_getenv(const char *name)
 		while (env[i] != '=')
 			i++;
 
-		env_val = malloc(_strlen(env) - i);
+		env_val = _strdup(env);
 		if (env_val == NULL)
 			return (NULL);
 

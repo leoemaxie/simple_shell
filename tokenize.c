@@ -1,6 +1,6 @@
 #include "hash.h"
 
-#define MAX_SIZE 512
+#define MAX_SIZE 128
 /**
  * is_delim - Checks whether a character is a delimeter.
  *
@@ -34,7 +34,7 @@ int is_delim(char c, const char *delim)
  */
 char *_strtok(char *s, const char *delim)
 {
-	int i = 0;
+	int i = 0, len;
 	static char *buf;
 	char slice[BUFF_SIZE];
 	char *token;
@@ -42,25 +42,28 @@ char *_strtok(char *s, const char *delim)
 	if (s != NULL)
 		buf = s;
 
+	if (buf == NULL)
+		return (NULL);
+	len = _strlen(buf);
+
 	while (is_delim(buf[i], delim))
 		i++;
 	buf += i;
 
-	for (i = 0; buf[i]; i++)
-	{
+	for (i = 0; buf[i] && !is_delim(buf[i], delim); i++)
 		slice[i] = buf[i];
-		if (is_delim(buf[i], delim))
-			break;
-	}
 
 	slice[i] = '\0';
 	token = _strdup(slice);
 	buf += i;
 
-	if (i > 0 && buf[i] == '\0')
+	if (i > 0 && i == len)
+	{
+		buf = NULL;
 		return (token);
+	}
 
-	if (buf[i] == '\0')
+	if (i == 0)
 	{
 		buf = NULL;
 		free(token);
