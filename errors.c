@@ -115,7 +115,7 @@ void printerr(err_t err)
 void perr(char **tokens, char *msg, err_t err, int is_builtin)
 {
 	char *error = create_err(err);
-	int size = 7; /* Extra delimiters */
+	int size = 5; /* Extra delimiters */
 	char *err_msg = NULL;
 
 	if (error)
@@ -123,7 +123,7 @@ void perr(char **tokens, char *msg, err_t err, int is_builtin)
 		size += (_strlen(error) + _strlen(msg) + _strlen(tokens[0]));
 
 		if (tokens[1] && is_builtin)
-			size += _strlen(tokens[1]);
+			size += _strlen(tokens[1]) + 2;
 
 		err_msg = malloc(size);
 		if (err_msg)
@@ -141,7 +141,7 @@ void perr(char **tokens, char *msg, err_t err, int is_builtin)
 			_strcat(err_msg, msg);
 			write(STDERR_FILENO, err_msg, size);
 			free(err_msg);
-			free(error);
 		}
 	}
+	free(error);
 }
