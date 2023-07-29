@@ -104,7 +104,7 @@ int _exec(int fd, err_t err)
 	if (_getline(&cmd_arr, &n, fd) == -1)
 	{
 		free(cmd_arr);
-		return (-2);
+		return (0);
 	}
 
 	tokens = tokenize(cmd_arr);
@@ -112,7 +112,7 @@ int _exec(int fd, err_t err)
 	{
 		free(cmd_arr);
 		free(tokens);
-		return (-1);
+		return (0);
 	}
 
 	if (_strcmp(tokens[0], "exit"))
