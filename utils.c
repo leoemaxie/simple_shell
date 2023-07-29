@@ -14,6 +14,7 @@ void clean_env(void)
 
 	for (i = (len - 1); environ[i]; i++)
 		free(environ[i]);
+
 }
 
 /**
