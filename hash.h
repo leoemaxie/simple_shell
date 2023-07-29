@@ -48,13 +48,16 @@ typedef struct builtin
 
 /** builtin.c **/
 int cd(char **args, err_t err);
-int exec_builtin(char *cmd, char **tokens, err_t err);
 int exit_shell(char *cmd, char **args, err_t err);
 int unsetenv_c(char **args, err_t err);
 int setenv_c(char **args, err_t err);
 
+/** builtin_utils.c **/
+int cderr(char **args, char *dir, int tokens, err_t err);
+int exec_builtin(char *cmd, char **tokens, err_t err);
+int set_cd(char **args, char *dir, int tokens, err_t err);
+
 /** errors.c **/
-void close_fd(int fd);
 char *create_err(err_t err);
 void perr(char **tokens, char *msg, err_t err, int is_builtin);
 void printerr(err_t err);

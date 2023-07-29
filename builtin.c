@@ -1,39 +1,6 @@
 #include "hash.h"
 
 /**
- * exec_builtin - Executes a builtin command.
- * Sets an environment variable.
- *
- * @cmd: The command to execute.
- * @args: Array of arguments passed to the command.
- * @err: Error structure containing the nature of the error occured while
- * executing the command.
- *
- * Return: 1 if a command is a builtin, 0 otherwise.
- */
-int exec_builtin(char *cmd, char **args, err_t err)
-{
-	int i;
-	btn_t builtins[] = {
-		/*{alias, "alias"},*/
-		{cd, "cd"},
-		{printenv, "env"},
-		{setenv_c, "setenv"},
-		{unsetenv_c, "unsetenv"}
-	};
-
-	for (i = 0; i < 4; i++)
-	{
-		if (_strcmp(cmd, builtins[i].cmd))
-		{
-			builtins[i].exec(args, err);
-			return (1);
-		}
-	}
-	return (0);
-}
-
-/**
  * exit_shell  - Exists an interactive shell.
  * Sets an environment variable.
  *
@@ -55,7 +22,7 @@ int exit_shell(char *cmd_line, char **args, err_t err)
 
 		if (status == 0)
 		{
-			perr(args, "Not a number\n", err, 1);
+			perr(args, "Illegal number", err, 1);
 			free(cmd_line);
 			free_tokens(args);
 			return (-1);
@@ -74,49 +41,30 @@ int exit_shell(char *cmd_line, char **args, err_t err)
  * @err: Error structure containing the nature of the error occured while
  * executing the command.
  *
- * Return: 1 on success, 0 on failure.
+ * Return: 0 on success, -1 on failure.
  */
 int cd(char **args, err_t err)
 {
-	int set_oldpwd, set_pwd;
 	int tokens = arr_size(args);
-	char *dir = _getenv("HOME");
-	char old_dir[256];
+	char *dir = NULL;
 
 	if (tokens > 2)
-	{
-		perr(args, "Too many arguments\n", err, 1);
-		return (-1);
-	}
+		return (cderr(args, NULL, tokens, err));
 
-	getcwd(old_dir, 256);
-	if (tokens > 1)
-		dir = _strcmp("-", args[1]) ? old_dir : args[1];
-
-	if (dir == NULL || chdir(dir) == -1)
-	{
-		if (tokens == 1)
-			free(dir);
-		perr(args, "Cannot cd into directory\n", err, 1);
-		return (-1);
-	}
-
-	set_oldpwd = _setenv("OLDPWD", old_dir, 0);
-	set_pwd = _setenv("PWD", dir, 0);
-	if (set_oldpwd == -1 || set_pwd == -1)
-	{
-		if (tokens == 1)
-			free(dir);
-		perr(args, "Unable to set environment\n", err, 1);
-		return (-1);
-	}
-
-	if (_strcmp(dir, "-"))
-		_puts(dir);
 	if (tokens == 1)
-		free(dir);
+	{
+		dir = _getenv("HOME");
+		return (set_cd(args, dir, tokens, err));
+	}
 
-	return (0);
+	if (_strcmp(args[1], "-"))
+	{
+		dir = _getenv("OLDPWD");
+		return (set_cd(args, dir, tokens, err));
+	}
+
+	dir = _strdup(args[1]);
+	return (set_cd(args, dir, tokens, err));
 }
 
 /**
@@ -135,19 +83,19 @@ int setenv_c(char **args, err_t err)
 
 	if (tokens > 3)
 	{
-		perr(args, "Too many arguments\n", err, 1);
+		perr(args, "Too many arguments", err, 1);
 		return (-1);
 	}
 
 	else if (tokens < 2)
 	{
-		perr(args, "Invalid argument\n", err, 1);
+		perr(args, "Invalid argument", err, 1);
 		return (-1);
 	}
 
 	if (_setenv(args[1], args[2], 1) == -1)
 	{
-		perr(args, "Cannot set environment\n", err, 1);
+		perr(args, "Cannot set environment", err, 1);
 		return (-1);
 	}
 	return (0);
@@ -171,19 +119,19 @@ int unsetenv_c(char **args, err_t err)
 
 	if (tokens > 2)
 	{
-		perr(args, "Too many arguments\n", err, 1);
+		perr(args, "Too many arguments", err, 1);
 		return (-1);
 	}
 
 	else if (tokens == 1)
 	{
-		perr(args, "Invalid argument\n", err, 1);
+		perr(args, "Invalid argument", err, 1);
 		return (-1);
 	}
 
 	if (_unsetenv(args[1]) == -1)
 	{
-		perr(args, "No such environment\n", err, 1);
+		perr(args, "No such environment", err, 1);
 		return (-1);
 	}
 	return (0);

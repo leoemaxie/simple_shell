@@ -29,11 +29,10 @@ char *strnum(unsigned int lineno)
 	char buf[11];
 
 	buf[len] = '\0';
-	while (lineno)
-	{
+	do {
 		buf[--len] = (lineno % 10) + '0';
 		lineno /= 10;
-	}
+	} while (lineno);
 
 	ptr = malloc(12 - len);
 	if (ptr == NULL)
@@ -123,7 +122,7 @@ void perr(char **tokens, char *msg, err_t err, int is_builtin)
 		size += (_strlen(error) + _strlen(msg) + _strlen(tokens[0]));
 
 		if (tokens[1] && is_builtin)
-			size += _strlen(tokens[1]) + 2;
+			size += _strlen(tokens[1]) + 3;
 
 		err_msg = malloc(size);
 		if (err_msg)
@@ -132,13 +131,14 @@ void perr(char **tokens, char *msg, err_t err, int is_builtin)
 			_strcat(err_msg, ": ");
 			_strcat(err_msg, tokens[0]);
 			_strcat(err_msg, ": ");
+			_strcat(err_msg, msg);
 
 			if (is_builtin && tokens[1])
 			{
-				_strcat(err_msg, tokens[1]);
 				_strcat(err_msg, ": ");
+				_strcat(err_msg, tokens[1]);
+				_strcat(err_msg, "\n");
 			}
-			_strcat(err_msg, msg);
 			write(STDERR_FILENO, err_msg, size);
 			free(err_msg);
 		}

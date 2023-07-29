@@ -100,7 +100,6 @@ int _exec(int fd, err_t err)
 	char *cmd_arr;
 	char **tokens;
 
-	get_initial_env_len();
 	if (_getline(&cmd_arr, &n, fd) == -1)
 	{
 		free(cmd_arr);
@@ -170,11 +169,9 @@ int sysexec(char *cmd, char **args, err_t err)
 		}
 		if (WIFSTOPPED(status))
 			err.print(err);
-		if (path_stat == 0)
-			free(path);
-		return (WEXITSTATUS(status));
 	}
+
 	if (path_stat == 0)
 		free(path);
-	return (-1);
+	return (WEXITSTATUS(status));
 }

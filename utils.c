@@ -9,13 +9,11 @@
  */
 void clean_env(void)
 {
-	int init_len = get_initial_env_len();
-	int len = arr_size(environ);
+	int len = arr_size(environ) - get_initial_env_len();
 	int i;
 
-	if (len > init_len)
-		for (i = len; i < init_len; i++)
-			free(environ[i]);
+	for (i = (len - 1); environ[i]; i++)
+		free(environ[i]);
 }
 
 /**

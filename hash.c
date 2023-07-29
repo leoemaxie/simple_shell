@@ -34,10 +34,16 @@ int file_exec(char **argv)
 	err_t err = {NULL, 1, printerr};
 
 	err.name = argv[0];
+
 	if (fd == -1)
 	{
-		err.print(err);
-		exit(EXIT_FAILURE);
+		char *msg = create_err(err);
+
+		write(STDERR_FILENO, msg, _strlen(msg));
+		write(STDERR_FILENO, "Can't open ", 11);
+		write(STDERR_FILENO, argv[1], _strlen(argv[1]));
+		free(msg);
+		exit(127);
 	}
 
 	while (1)
@@ -47,7 +53,11 @@ int file_exec(char **argv)
 		err.lineno++;
 	}
 
-	close_fd(fd);
+	if (close(fd) == -1)
+	{
+		err.print(err);
+		exit(127);
+	}
 }
 
 /**
@@ -60,7 +70,7 @@ int file_exec(char **argv)
  */
 int main(int ac, char **av)
 {
-	err_t err = {NULL, 0, printerr};
+	err_t err = {NULL, 1, printerr};
 
 	err.name = av[0];
 	(void)av;
@@ -70,9 +80,9 @@ int main(int ac, char **av)
 		file_exec(av);
 
 	else if (!isatty(STDIN_FILENO))
-		_exec(STDIN_FILENO, err);
-	else
-		shell_exec(av[0]);
+		return (_exec(STDIN_FILENO, err));
+
+	shell_exec(av[0]);
 
 	return (0);
 }

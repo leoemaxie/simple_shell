@@ -46,17 +46,19 @@ char *_getenv(const char *name)
  */
 int printenv(char **args, err_t err)
 {
+	int i = 0;
+
 	if (arr_size(args) > 1)
 	{
-		perr(args, "Too many arguments\n", err, 1);
+		perr(args, "Too many arguments", err, 1);
 		return (-1);
 	}
 
-	while (*environ)
+	while (environ[i])
 	{
-		_puts(*environ);
+		_puts(environ[i]);
 		_putchar('\n');
-		environ++;
+		i++;
 	}
 	_putchar(-1);
 	return (0);
