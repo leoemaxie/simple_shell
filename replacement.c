@@ -33,23 +33,18 @@ int env_replacement(char **tokens, int index)
 int var_replacement(char **tokens, int status, pid_t pid)
 {
 	int i;
-	int size = arr_size(tokens);
 
 	for (i = 0; tokens[i]; i++)
 	{
 		if (tokens[i][0] == '#')
 		{
-			if (size == 1)
+			if (i == 0)
 				return (-2);
 			return (comment_replacement(tokens, i));
 		}
 
 		if (tokens[i][0] == '$')
-		{
-			if (size == 1)
-				return (-2);
 			dollar_replacement(tokens, i, status, pid);
-		}
 	}
 	return (0);
 }
