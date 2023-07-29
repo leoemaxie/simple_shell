@@ -31,7 +31,6 @@ int exit_shell(char *cmd_line, char **args, err_t err)
 
 	free(cmd_line);
 	free_tokens(args);
-	clean_env();
 	exit(status);
 }
 
