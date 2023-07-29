@@ -139,7 +139,7 @@ void perr(char **tokens, char *msg, err_t err, int is_builtin)
 				_strcat(err_msg, tokens[1]);
 				_strcat(err_msg, "\n");
 			}
-			write(STDERR_FILENO, err_msg, size);
+			write(STDERR_FILENO, err_msg, size - 1);
 			free(err_msg);
 		}
 	}
