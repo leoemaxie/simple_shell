@@ -82,7 +82,6 @@ int addenv(const char *name, const char *value)
 	int char_len = _strlen(name) + _strlen(value) + 2; /* 2 chars: = and '\0' */
 
 	environ[env_len] = malloc(char_len);
-	environ = _realloc(environ, env_len, env_len + 1);
 
 	if (!environ[env_len])
 		return (-1);
