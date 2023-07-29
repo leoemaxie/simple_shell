@@ -104,6 +104,13 @@ int resize(char **lineptr, ssize_t old_len, ssize_t new_len);
 int file_exec(char **argv);
 void shell_exec(char *name);
 
+/** replacemnt.c **/
+int comment_replacement(char **tokens, int index);
+int dollar_replacement(char **tokens, int index, int status, pid_t pid);
+int env_replacement(char **tokens, int index);
+int stat_replacement(char **tokens, int index, int stat);
+int var_replacement(char **tokens, int status, pid_t pid);
+
 /** string.c **/
 char *_strcat(char *dest, const char *src);
 int _strcmp(const char *s1, const char *s2);

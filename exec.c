@@ -95,10 +95,11 @@ void get_cmd_name(char **args)
  */
 int _exec(int fd, err_t err)
 {
-	int status = 0;
+	static int status;
 	size_t n = 0;
 	char *cmd_arr;
 	char **tokens;
+	pid_t pid = getpid();
 
 	if (_getline(&cmd_arr, &n, fd) == -1)
 	{
@@ -116,6 +117,7 @@ int _exec(int fd, err_t err)
 
 	if (_strcmp(tokens[0], "exit"))
 		return (exit_shell(cmd_arr, tokens, err));
+	var_replacement(tokens, status, pid);
 
 	if (!exec_builtin(tokens[0], tokens, err))
 		status = sysexec(tokens[0], tokens, err);
