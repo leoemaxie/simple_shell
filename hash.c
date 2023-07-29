@@ -40,8 +40,10 @@ int file_exec(char **argv)
 		char *msg = create_err(err);
 
 		write(STDERR_FILENO, msg, _strlen(msg));
+		write(STDERR_FILENO, ": ", 3);
 		write(STDERR_FILENO, "Can't open ", 11);
 		write(STDERR_FILENO, argv[1], _strlen(argv[1]));
+		write(STDERR_FILENO, "\n", 1);
 		free(msg);
 		exit(127);
 	}
