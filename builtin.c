@@ -93,7 +93,7 @@ int setenv_c(char **args, err_t err)
 		return (-1);
 	}
 
-	if (_setenv(args[1], args[2], 1) == -1)
+	if (setenv(args[1], args[2], 1) == -1)
 	{
 		perr(args, "Cannot set environment", err, 1);
 		return (-1);
@@ -129,7 +129,7 @@ int unsetenv_c(char **args, err_t err)
 		return (-1);
 	}
 
-	if (_unsetenv(args[1]) == -1)
+	if (unsetenv(args[1]) == -1)
 	{
 		perr(args, "No such environment", err, 1);
 		return (-1);
