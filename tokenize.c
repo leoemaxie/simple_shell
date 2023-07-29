@@ -50,6 +50,9 @@ char *_strtok(char *s, const char *delim)
 		i++;
 	buf += i;
 
+	if (i == len)
+		return (NULL);
+
 	for (i = 0; buf[i] && !is_delim(buf[i], delim); i++)
 		slice[i] = buf[i];
 

@@ -108,7 +108,7 @@ int _exec(int fd, err_t err)
 	}
 
 	tokens = tokenize(cmd_arr);
-	if (tokens == NULL)
+	if (tokens[0] == NULL)
 	{
 		free(cmd_arr);
 		free(tokens);
