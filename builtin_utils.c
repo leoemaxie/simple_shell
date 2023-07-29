@@ -84,7 +84,7 @@ int set_cd(char **args, char *dir, int tokens, err_t err)
 	if (old_dir == NULL)
 		return (cderr(args, dir, tokens, err));
 
-	if (dir == NULL && arr_size(tokens) == 1)
+	if (dir == NULL && arr_size(args) == 1)
 		dir = old_dir;
 
 	if (dir == NULL || chdir(dir) == -1)
