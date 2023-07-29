@@ -122,7 +122,7 @@ int _exec(int fd, err_t err)
 		
 	if (!exec_builtin(tokens[0], tokens, err))
 		status = sysexec(tokens[0], tokens, err);
-	if (status == -2)
+	if (status == 127)
 		perr(tokens, "not found\n", err, 0);
 
 	free(cmd_arr);
@@ -148,7 +148,7 @@ int sysexec(char *cmd, char **args, err_t err)
 	char *path = get_cmd_path(cmd, &path_stat);
 
 	if (path == NULL)
-		return (-2);
+		return (127);
 	pid = fork();
 
 	if (pid < 0)
