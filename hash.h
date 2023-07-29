@@ -33,6 +33,19 @@ typedef struct error
 } err_t;
 
 /**
+ * struct environ_memory - Structure for dynamically allocated memory.
+ *
+ * @name: Name of the environ variable.
+ * @addrss: Memory address of the environ variable.
+ * @env_mem: Pointer to the next node in the environ_memory structure.
+*/
+typedef struct environ_memory
+{
+	char *name;
+	char *address;
+	struct environ_memory *env_mem;
+} mem_t;
+/**
  * struct builtin - Builtin structure for builtin shell commands.
  *
  * @exec: Pointer to an exec function of builtin commands.

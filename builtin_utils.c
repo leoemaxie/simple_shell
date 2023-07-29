@@ -76,30 +76,30 @@ int cderr(char **args, char *dir, int tokens, err_t err)
 int set_cd(char **args, char *dir, int tokens, err_t err)
 {
 	int set_pwd, set_oldpwd;
-	char *cwd;
+	char buf[BUFF_SIZE];
+	char buf2[BUFF_SIZE];
+	char *cwd, *old_dir;
+
+	old_dir = getcwd(buf, BUFF_SIZE);
+	if (old_dir == NULL)
+		return (cderr(args, dir, tokens, err));
 
 	if (dir == NULL || chdir(dir) == -1)
 		return (cderr(args, dir, tokens, err));
 
-	cwd = _getenv("PWD");
+
+	cwd = getcwd(buf2, BUFF_SIZE);
 	if (cwd == NULL)
 		return (cderr(args, dir, tokens, err));
 
-	set_oldpwd = setenv("OLDPWD", cwd, 0);
-	set_pwd = setenv("PWD", dir, 0);
+	set_oldpwd = setenv("OLDPWD", old_dir, 1);
+	set_pwd = setenv("PWD", cwd, 1);
 	if (set_oldpwd == -1 || set_pwd == -1)
-	{
-		free(cwd);
 		return (cderr(args, dir, tokens, err));
-	}
 
-	if (tokens > 1 && _strcmp("-", args[1]))
-	{
-		write(STDERR_FILENO, dir, _strlen(dir));
-		write(STDERR_FILENO, "\n", 1);
-	}
+	write(STDOUT_FILENO, cwd, _strlen(cwd));
+	write(STDOUT_FILENO, "\n", 1);
 
-	free(cwd);
 	free(dir);
 	return (0);
 }
