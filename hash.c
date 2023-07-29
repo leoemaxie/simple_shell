@@ -31,7 +31,7 @@ void shell_exec(char *name)
 int file_exec(char **argv)
 {
 	int fd = getfd(argv[1]);
-	err_t err = {NULL, 1, printerr};
+	err_t err = {NULL, 0, printerr};
 
 	err.name = argv[0];
 
@@ -40,7 +40,7 @@ int file_exec(char **argv)
 		char *msg = create_err(err);
 
 		write(STDERR_FILENO, msg, _strlen(msg));
-		write(STDERR_FILENO, ": ", 3);
+		write(STDERR_FILENO, ": ", 2);
 		write(STDERR_FILENO, "Can't open ", 11);
 		write(STDERR_FILENO, argv[1], _strlen(argv[1]));
 		write(STDERR_FILENO, "\n", 1);

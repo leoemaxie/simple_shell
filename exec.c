@@ -103,7 +103,7 @@ int _exec(int fd, err_t err)
 	if (_getline(&cmd_arr, &n, fd) == -1)
 	{
 		free(cmd_arr);
-		return (-1);
+		return (-2);
 	}
 
 	tokens = tokenize(cmd_arr);
