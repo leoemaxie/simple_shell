@@ -25,7 +25,7 @@ int exit_shell(char *cmd_line, char **args, err_t err)
 			perr(args, "Illegal number", err, 1);
 			free(cmd_line);
 			free_tokens(args);
-			return (-1);
+			return (2);
 		}
 	}
 
