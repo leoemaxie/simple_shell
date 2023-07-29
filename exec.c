@@ -117,11 +117,11 @@ int _exec(int fd, err_t err)
 
 	if (_strcmp(tokens[0], "exit"))
 		return (exit_shell(cmd_arr, tokens, err));
-	var_replacement(tokens, status, pid);
-
+	if (var_replacement(tokens, status, pid) == -2)
+		return (0);
+		
 	if (!exec_builtin(tokens[0], tokens, err))
 		status = sysexec(tokens[0], tokens, err);
-
 	if (status == -2)
 		perr(tokens, "not found\n", err, 0);
 
