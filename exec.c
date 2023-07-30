@@ -125,9 +125,11 @@ int _exec(int fd, err_t err)
 	}
 		
 	if (!exec_builtin(tokens[0], tokens, err))
+	{
 		status = sysexec(tokens[0], tokens, err);
-	if (status == 127)
-		perr(tokens, "not found\n", err, 0);
+		if (status == 127)
+			perr(tokens, "not found\n", err, 0);
+	}
 
 	free(cmd_arr);
 	free_tokens(tokens);
