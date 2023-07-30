@@ -72,7 +72,7 @@ int dollar_replacement(char **tokens, int index, int status, pid_t pid)
 	if (tokens[index][1] == '$')
 		return (stat_replacement(tokens, index, pid_num));
 
-	if (tokens[index][1] >= 'A' || tokens[index][1] <= 'Z')
+	if (tokens[index][1] >= 'A' && tokens[index][1] <= 'Z')
 		return (env_replacement(tokens, index));
 
 	return (-1);
