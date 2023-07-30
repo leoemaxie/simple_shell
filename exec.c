@@ -118,7 +118,11 @@ int _exec(int fd, err_t err)
 	if (_strcmp(tokens[0], "exit"))
 		return (exit_shell(cmd_arr, tokens, err));
 	if (var_replacement(tokens, status, pid) == -2)
+	{
+		free_tokens(tokens);
+		free(cmd_arr);
 		return (0);
+	}
 		
 	if (!exec_builtin(tokens[0], tokens, err))
 		status = sysexec(tokens[0], tokens, err);
