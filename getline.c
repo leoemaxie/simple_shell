@@ -91,7 +91,7 @@ int fill_buf(char **lineptr, char *buf, ssize_t old_len, ssize_t new_len)
  */
 ssize_t _getline(char **lineptr, size_t *n, int fd)
 {
-	int is_full = 1;
+	int is_full = 0;
 	ssize_t nread, old_len, len = 0;
 	char buf[BUFF_SIZE];
 
