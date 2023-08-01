@@ -1,28 +1,6 @@
 #include "hash.h"
 
 /**
- * line_end - Determines whether a character is a newline, or EOF .
- *
- * @c: The character to check.
- *
- * Return: 1 when a character is a newline or EOF, 0 otherwise.
- */
-int line_end(int c)
-{
-	switch (c)
-	{
-		case '\n':
-			return (1);
-		case EOF:
-			exit(0);
-		case CTRL_KEY('c'):
-			exit(1);
-		default:
-			return (0);
-	}
-}
-
-/**
  * resize - Dybamically resize a buffer.
  *
  * @lineptr: Pointer to the buffer to resize.

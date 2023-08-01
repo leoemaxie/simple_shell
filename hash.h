@@ -2,7 +2,9 @@
 #define _HASH_H_
 
 #define BUFF_SIZE 1024
-#define CTRL_KEY(k) ((k) & 0x1f)
+#define EXIT_STATUS 127
+#define HIST_FILE ".history"
+#define MAX_HIST_LINE 4096
 
 /** Includes **/
 #include <errno.h>
@@ -45,6 +47,7 @@ typedef struct environ_memory
 	char *address;
 	struct environ_memory *env_mem;
 } mem_t;
+
 /**
  * struct builtin - Builtin structure for builtin shell commands.
  *
@@ -97,7 +100,6 @@ int sysexec(char *cmd, char **args, err_t err);
 int getfd(const char *filename);
 ssize_t _getline(char **lineptr, size_t *n, int fd);
 int fill_buf(char **lineptr, char *buf, ssize_t old_len, ssize_t new_len);
-int line_end(int c);
 int resize(char **lineptr, ssize_t old_len, ssize_t new_len);
 
 /** hash.c **/

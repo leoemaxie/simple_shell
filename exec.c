@@ -27,6 +27,7 @@ char *get_cmd_path(char *cmd, int *path_stat)
 	if (path == NULL)
 		return (NULL);
 	cmd_path = malloc(_strlen(cmd) + _strlen(path) + 2);
+
 	if (cmd_path == NULL)
 	{
 		if (path != NULL)
@@ -168,7 +169,7 @@ int sysexec(char *cmd, char **args, err_t err)
 		waitpid(pid, &status, 0);
 	else
 	{
-		if (execve(path, args, environ) == -1)
+		if (execve(path, args, environ) == -)
 		{
 			err.print(err);
 			if (path_stat == 0)
