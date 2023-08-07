@@ -45,7 +45,7 @@ int file_exec(char **argv)
 		write(STDERR_FILENO, argv[1], _strlen(argv[1]));
 		write(STDERR_FILENO, "\n", 1);
 		free(msg);
-		exit(127);
+		exit(EXIT_STATUS);
 	}
 
 	while (1)
@@ -58,7 +58,7 @@ int file_exec(char **argv)
 	if (close(fd) == -1)
 	{
 		err.print(err);
-		exit(127);
+		exit(EXIT_STATUS);
 	}
 }
 
