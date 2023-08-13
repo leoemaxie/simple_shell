@@ -5,9 +5,9 @@ A minimalistic command line intepreter for UNIX and UNIX-like systems that execu
 
 ## USAGE
 ```bash
-./hash
-echo "ls -la" | ./hash
-./hash <file>
+./hash # Enter shell mode. Continuously ask for commands from the user
+echo "ls -la" | ./hash # Executes commands from stdin and exit
+./hash <file> # Execute commands from a file
 ```
 
 ## TESTING
