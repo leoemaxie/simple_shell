@@ -5,17 +5,15 @@ A minimalistic command line intepreter for UNIX and UNIX-like systems that execu
 
 ## USAGE
 ```bash
-./hash <command>
-./hash echo "hello World"
+./hash
+echo "ls -la" | ./hash
 ./hash <file>
-./hash scripts.sh
 ```
 
 ## TESTING
 1. Grant execute permission to compile.sh through `chmod u+x compile.sh`
-2. Run `./compile.sh` from the command line to generate the static library `libhsh.a`
-3. Then `cd` into the test directory and run `gcc *.c ../libhsh.a`
+2. Run `./compile.sh` from the command line to generate the static library `libhash.a`
+3. Then `cd` into the test directory and run `gcc *.c ../libhash.a`
 
 ## Authors
 * [Leo Emaxie](https://github.com/leoemaxie)
-* [Ujah Sunday](https://github.com/ujah2023)
